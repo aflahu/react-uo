@@ -41,7 +41,7 @@ class ContainerGembok extends Container {
       if (this.state.tipe === "guru") return history.replace("/menu-guru");
       if (this.state.tipe === "murid") return history.replace("/ujian");
     } catch (error) {
-      console.log(error.response);
+      // console.log(error.response);
       // console.log(result.status);
       if (error.response === undefined) {
         return swal(

@@ -13,7 +13,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "sweetalert": "^2.1.2",
-    "unstated": "^2.1.1"
+    "unstated": "^2.1.1",
+    "unstated-connect": "0.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
