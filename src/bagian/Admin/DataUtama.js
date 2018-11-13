@@ -60,35 +60,88 @@ class DataUtama extends Component {
           <div style={{ width: "100%" }}>
             <MaterialTable
               columns={[
-                { title: "Adı", field: "name" },
-                { title: "Soyadı", field: "surname" },
-                { title: "Doğum Yılı", field: "birthYear", type: "numeric" },
-                {
-                  title: "Doğum Yeri",
-                  field: "birthCity",
-                  lookup: { 34: "İstanbul", 63: "Şanlıurfa" }
-                }
+                { title: "NIP", field: "no", type: "numeric" },
+                { title: "Nama", field: "nama" },
+                { title: "Menguji", field: "menguji" }
               ]}
               data={[
                 {
-                  name: "sda",
-                  surname: "asdsa",
-                  birthYear: 1487,
-                  birthCity: 63
-                },
-                {
-                  name: "sda",
-                  surname: "asdsa",
-                  birthYear: 1487,
-                  birthCity: 63
+                  no: 123,
+                  nama: "123",
+                  menguji: 1487
                 }
               ]}
-              title="Demo Title"
+              title="Data Guru"
             />
           </div>
         )}
-        {value === 1 && <div>Item Two</div>}
-        {value === 2 && <div>Item Three</div>}
+        {value === 1 && (
+          <div style={{ width: "100%" }}>
+            <MaterialTable
+              columns={[
+                { title: "NIS", field: "no", type: "numeric" },
+                { title: "Nama", field: "nama" },
+                { title: "Kelas", field: "kelas_murid" }
+              ]}
+              data={[
+                {
+                  no: 123,
+                  nama: "123",
+                  kelas_murid: 1487
+                }
+              ]}
+              title="Data Murid"
+            />
+          </div>
+        )}
+        {value === 2 && (
+          <div style={{ width: "100%" }}>
+            <MaterialTable
+              columns={[
+                { title: "No. Kelas", field: "no", type: "numeric" },
+                { title: "Nama", field: "nama" },
+                { title: "Tanggal", field: "tanggal" },
+                { title: "Murid-murid", field: "murid_di_kelas" }
+              ]}
+              data={[
+                {
+                  no: 123,
+                  nama: "123",
+                  tanggal: 1487,
+                  murid_di_kelas: 1487
+                }
+              ]}
+              title="Data Kelas"
+            />
+          </div>
+        )}
+        {value === 3 && (
+          <div style={{ width: "100%" }}>
+            <MaterialTable
+              columns={[
+                { title: "No. Ujian", field: "no", type: "numeric" },
+                { title: "Judul", field: "judul" },
+                { title: "Mata Pelajaran", field: "nama_mapel" },
+                { title: "Tanggal", field: "tanggal" },
+                { title: "Lama Waktu", field: "waktu" },
+                { title: "Guru", field: "guru" },
+                { title: "Ujian", field: "ujian" }
+              ]}
+              data={[
+                {
+                  no: 123,
+                  judul: "123",
+                  nama_mapel: 1487,
+                  tanggal: 1487,
+                  waktu: 123,
+                  guru: "123",
+                  ujian: 123
+                }
+              ]}
+              title="Data Ujian"
+            />
+          </div>
+        )}
         {/* </Paper> */}
       </div>
     );
