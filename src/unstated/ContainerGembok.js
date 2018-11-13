@@ -3,6 +3,7 @@ import { Container } from "unstated";
 import Data from "./data";
 import Axios from "axios";
 import swal from "sweetalert";
+import { history } from "../material/BrowserRouter";
 
 // type KunciGembok = {
 //   no: number,
@@ -34,14 +35,30 @@ class ContainerGembok extends Container {
         kunci: "",
         tipe: result.data.tipe
       });
+      window.localStorage.setItem("no", this.state.no);
+      window.localStorage.setItem("tipe", this.state.tipe);
+      if (this.state.tipe === "admin") return history.replace("/data-utama");
+      if (this.state.tipe === "guru") return history.replace("/menu-guru");
+      if (this.state.tipe === "murid") return history.replace("/ujian");
     } catch (error) {
-      // console.log(error.response.status);
+      console.log(error.response);
       // console.log(result.status);
+      if (error.response === undefined) {
+        return swal(
+          "Tidak terhubung ke server",
+          "Silahkan hubungi admin",
+          "error"
+        );
+      }
       if (error.response.status === 404) {
-        swal("No tidak ditemukan", "silahkan coba kembali", "warning");
+        return swal(
+          "No. Pengguna tidak ditemukan",
+          "Silahkan coba kembali",
+          "warning"
+        );
       }
       if (error.response.status === 401) {
-        swal("Kunci tidak sesuai", "silahkan coba kembali", "warning");
+        return swal("Kunci tidak sesuai", "Silahkan coba kembali", "warning");
       }
     }
   }

@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { Subscribe } from "unstated";
 import ContainerGembok from "../unstated/ContainerGembok";
+import { history } from "../material/BrowserRouter";
 
 const hiasan = theme => ({
   utama: {
@@ -44,6 +45,16 @@ const hiasan = theme => ({
 });
 
 class MasukPagar extends Component {
+  componentWillMount() {
+    if (window.localStorage.getItem("tipe")) {
+      if (window.localStorage.getItem("tipe") === "admin")
+        return history.replace("/data-utama");
+      if (window.localStorage.getItem("tipe") === "guru")
+        return history.replace("/menu-guru");
+      if (window.localStorage.getItem("tipe") === "murid")
+        return history.replace("/ujian");
+    }
+  }
   render() {
     const { classes } = this.props;
     return (
