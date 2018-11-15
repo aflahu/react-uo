@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { Paper, withStyles, AppBar, Tabs, Tab } from "@material-ui/core";
+import {
+  Paper,
+  withStyles,
+  AppBar,
+  Tabs,
+  Tab,
+  IconButton
+} from "@material-ui/core";
 import MaterialTable from "material-table";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import ContainerDataSoal from "../../unstated/ContainerDataSoal";
 import { Subscribe } from "unstated";
+import AddIcon from "@material-ui/icons/Add";
 
 const hiasan = theme => ({
   utama: {
@@ -35,6 +43,10 @@ const hiasan = theme => ({
   },
   tombol: {
     marginTop: theme.spacing.unit * 3
+  },
+  tambah: {
+    marginTop: theme.spacing.unit * 2,
+    float: "right"
   }
 });
 
@@ -66,6 +78,13 @@ class MenuGuru extends Component {
               data_kelas.ambilDataSemuaKelas();
               return (
                 <div style={{ width: "100%" }}>
+                  <IconButton
+                    color="secondary"
+                    size="small"
+                    className={classes.tambah}
+                  >
+                    <AddIcon />
+                  </IconButton>
                   <MaterialTable
                     columns={[
                       { title: "No. Kelas", field: "no", type: "numeric" },
@@ -84,6 +103,13 @@ class MenuGuru extends Component {
               data_ujian.ambilDataSemuaUjian();
               return (
                 <div style={{ width: "100%" }}>
+                  <IconButton
+                    color="secondary"
+                    size="small"
+                    className={classes.tambah}
+                  >
+                    <AddIcon />
+                  </IconButton>
                   <MaterialTable
                     columns={[
                       { title: "No. Ujian", field: "no", type: "numeric" },
@@ -106,6 +132,13 @@ class MenuGuru extends Component {
               data_soal.ambilDataSemuaSoal();
               return (
                 <div style={{ width: "100%" }}>
+                  <IconButton
+                    color="secondary"
+                    size="small"
+                    className={classes.tambah}
+                  >
+                    <AddIcon />
+                  </IconButton>
                   <MaterialTable
                     columns={[
                       { title: "No. Soal", field: "no", type: "numeric" },
