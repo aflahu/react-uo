@@ -17,8 +17,8 @@ class ContainerDataPengguna extends Container {
     } catch (error) {
       if (error.response === undefined) {
         return swal(
-          "Tidak terhubung ke server",
-          "Silahkan hubungi admin",
+          "Maaf ada kendala di pelayanan server",
+          "Silahkan hubungi admin, insyaAllah akan ditangani",
           "error"
         );
       }

@@ -45,8 +45,8 @@ class ContainerGembok extends Container {
       // console.log(result.status);
       if (error.response === undefined) {
         return swal(
-          "Tidak terhubung ke server",
-          "Silahkan hubungi admin",
+          "Maaf ada kendala di pelayanan server",
+          "Silahkan hubungi admin, insyaAllah akan ditangani",
           "error"
         );
       }

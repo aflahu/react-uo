@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Paper, withStyles, AppBar, Tabs, Tab } from "@material-ui/core";
 import MaterialTable from "material-table";
+import ContainerDataKelas from "../../unstated/ContainerDataKelas";
+import ContainerDataUjian from "../../unstated/ContainerDataUjian";
+import ContainerDataSoal from "../../unstated/ContainerDataSoal";
+import { Subscribe } from "unstated";
 
 const hiasan = theme => ({
   utama: {
@@ -54,91 +58,74 @@ class MenuGuru extends Component {
             <Tab label="Data Soal" />
           </Tabs>
         </AppBar>
-        {/* <Paper className={classes.media}> */}
-        {value === 0 && (
-          <div style={{ width: "100%" }}>
-            <MaterialTable
-              columns={[
-                { title: "No. Kelas", field: "no", type: "numeric" },
-                { title: "Nama", field: "nama" },
-                { title: "Tanggal", field: "tanggal" },
-                { title: "Murid-murid", field: "murid_di_kelas" },
-                { title: "Ujian", field: "ujian" }
-              ]}
-              data={[
-                {
-                  no: 123,
-                  nama: "123",
-                  tanggal: 1487,
-                  murid_di_kelas: 1487,
-                  ujian: 123
-                }
-              ]}
-              title="Data Kelas"
-            />
-          </div>
-        )}
-        {value === 1 && (
-          <div style={{ width: "100%" }}>
-            <MaterialTable
-              columns={[
-                { title: "No. Ujian", field: "no", type: "numeric" },
-                { title: "Judul", field: "judul" },
-                { title: "Mata Pelajaran", field: "nama_mapel" },
-                { title: "Tanggal", field: "tanggal" },
-                { title: "Lama Waktu", field: "waktu" },
-                { title: "Guru", field: "guru" },
-                { title: "Kelas kelas ujian", field: "kelas_kelas_ujian" }
-                // data soal
-                // data nilai
-              ]}
-              data={[
-                {
-                  no: 123,
-                  judul: "123",
-                  nama_mapel: 1487,
-                  tanggal: 1487,
-                  waktu: 123,
-                  guru: "123",
-                  kelas_kelas_ujian: 123
-                }
-              ]}
-              title="Data Ujian"
-            />
-          </div>
-        )}
-        {value === 2 && (
-          <div style={{ width: "100%" }}>
-            <MaterialTable
-              columns={[
-                { title: "No. Soal", field: "no", type: "numeric" },
-                { title: "Soal", field: "soal" },
-                { title: "Pilihan 1", field: "pilihan_1" },
-                { title: "Pilihan 2", field: "pilihan_2" },
-                { title: "Pilihan 3", field: "pilihan_3" },
-                { title: "Pilihan 4", field: "pilihan_4" },
-                { title: "Jawaban", field: "jawaban" },
-                { title: "Nilai Soal", field: "nilai" },
-                { title: "Ujian", field: "kelas_kelas_ujian" }
-              ]}
-              data={[
-                {
-                  no: 123,
-                  soal: "123",
-                  pilihan_1: 1487,
-                  pilihan_2: 1487,
-                  pilihan_3: 1487,
-                  pilihan_4: 1487,
-                  jawaban: 1487,
-                  nilai: 123,
-                  ujian: "123"
-                }
-              ]}
-              title="Data Soal"
-            />
-          </div>
-        )}
-        {/* </Paper> */}
+        <Subscribe
+          to={[ContainerDataSoal, ContainerDataKelas, ContainerDataUjian]}
+        >
+          {(data_soal, data_kelas, data_ujian) => {
+            if (value === 0) {
+              data_kelas.ambilDataSemuaKelas();
+              return (
+                <div style={{ width: "100%" }}>
+                  <MaterialTable
+                    columns={[
+                      { title: "No. Kelas", field: "no", type: "numeric" },
+                      { title: "Nama", field: "nama" },
+                      { title: "Tanggal", field: "tanggal" },
+                      { title: "Murid-murid", field: "murid_di_kelas" },
+                      { title: "Ujian", field: "ujian" }
+                    ]}
+                    data={data_kelas.state.semua_kelas}
+                    title="Data Kelas"
+                  />
+                </div>
+              );
+            }
+            if (value === 1) {
+              data_ujian.ambilDataSemuaUjian();
+              return (
+                <div style={{ width: "100%" }}>
+                  <MaterialTable
+                    columns={[
+                      { title: "No. Ujian", field: "no", type: "numeric" },
+                      { title: "Judul", field: "judul" },
+                      { title: "Mata Pelajaran", field: "nama_mapel" },
+                      { title: "Tanggal", field: "tanggal" },
+                      { title: "Lama Waktu", field: "waktu" },
+                      { title: "Guru", field: "guru" },
+                      { title: "Kelas kelas ujian", field: "kelas_kelas_ujian" }
+                      // data soal
+                      // data nilai
+                    ]}
+                    data={data_ujian.state.semua_ujian}
+                    title="Data Ujian"
+                  />
+                </div>
+              );
+            }
+            if (value === 2) {
+              data_soal.ambilDataSemuaSoal();
+              return (
+                <div style={{ width: "100%" }}>
+                  <MaterialTable
+                    columns={[
+                      { title: "No. Soal", field: "no", type: "numeric" },
+                      { title: "Soal", field: "soal" },
+                      { title: "Pilihan 1", field: "pilihan_1" },
+                      { title: "Pilihan 2", field: "pilihan_2" },
+                      { title: "Pilihan 3", field: "pilihan_3" },
+                      { title: "Pilihan 4", field: "pilihan_4" },
+                      { title: "Jawaban", field: "jawaban" },
+                      { title: "Nilai Soal", field: "nilai" },
+                      { title: "Ujian", field: "kelas_kelas_ujian" }
+                    ]}
+                    data={data_soal.state.semua_soal}
+                    title="Data Soal"
+                  />
+                </div>
+              );
+            }
+          }}
+        </Subscribe>
       </div>
     );
   }

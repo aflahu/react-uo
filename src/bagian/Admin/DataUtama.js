@@ -3,6 +3,8 @@ import { Paper, withStyles, AppBar, Tabs, Tab } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { Subscribe } from "unstated";
 import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
+import ContainerDataKelas from "../../unstated/ContainerDataKelas";
+import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 
 const hiasan = theme => ({
   utama: {
@@ -57,8 +59,10 @@ class DataUtama extends Component {
             <Tab label="Data Ujian" />
           </Tabs>
         </AppBar>
-        <Subscribe to={[ContainerDataPengguna]}>
-          {data => {
+        <Subscribe
+          to={[ContainerDataPengguna, ContainerDataKelas, ContainerDataUjian]}
+        >
+          {(data, data_kelas, data_ujian) => {
             if (value === 0) {
               data.ambilDataGuru();
               return (
@@ -91,7 +95,8 @@ class DataUtama extends Component {
                 </div>
               );
             }
-            if (value === 2)
+            if (value === 2) {
+              data_kelas.ambilDataSemuaKelas();
               return (
                 <div style={{ width: "100%" }}>
                   <MaterialTable
@@ -101,19 +106,14 @@ class DataUtama extends Component {
                       { title: "Tanggal", field: "tanggal" },
                       { title: "Murid-murid", field: "murid_di_kelas" }
                     ]}
-                    data={[
-                      {
-                        no: 123,
-                        nama: "123",
-                        tanggal: 1487,
-                        murid_di_kelas: 1487
-                      }
-                    ]}
+                    data={data_kelas.state.semua_kelas}
                     title="Data Kelas"
                   />
                 </div>
               );
-            if (value === 3)
+            }
+            if (value === 3) {
+              data_ujian.ambilDataSemuaUjian();
               return (
                 <div style={{ width: "100%" }}>
                   <MaterialTable
@@ -126,21 +126,12 @@ class DataUtama extends Component {
                       { title: "Guru", field: "guru" },
                       { title: "Ujian", field: "ujian" }
                     ]}
-                    data={[
-                      {
-                        no: 123,
-                        judul: "123",
-                        nama_mapel: 1487,
-                        tanggal: 1487,
-                        waktu: 123,
-                        guru: "123",
-                        ujian: 123
-                      }
-                    ]}
+                    data={data_ujian.state.semua_ujian}
                     title="Data Ujian"
                   />
                 </div>
               );
+            }
           }}
         </Subscribe>
       </div>
