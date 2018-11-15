@@ -6,7 +6,13 @@ import {
   Tabs,
   Tab,
   Button,
-  IconButton
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  DialogActions
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { Subscribe } from "unstated";
@@ -53,7 +59,15 @@ const hiasan = theme => ({
 
 class DataUtama extends Component {
   state = {
-    value: 0
+    value: 0,
+    open: false
+  };
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   handleChange = (event, value) => {
@@ -84,6 +98,7 @@ class DataUtama extends Component {
                     color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={this.handleClickOpen}
                   >
                     <AddIcon />
                   </IconButton>
@@ -96,6 +111,48 @@ class DataUtama extends Component {
                     data={data.state.guru}
                     title="Data Guru"
                   />
+                  <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Guru
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="no"
+                        label="NIP"
+                        type="number"
+                        fullWidth
+                      />
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="nama"
+                        label="Nama"
+                        fullWidth
+                      />
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="kunci"
+                        label="Kunci"
+                        type="password"
+                        fullWidth
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }
@@ -119,6 +176,48 @@ class DataUtama extends Component {
                     data={data.state.murid}
                     title="Data Murid"
                   />
+                  <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Guru
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="no"
+                        label="NIS"
+                        type="number"
+                        fullWidth
+                      />
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="nama"
+                        label="Nama"
+                        fullWidth
+                      />
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="kunci"
+                        label="Kunci"
+                        type="password"
+                        fullWidth
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }
