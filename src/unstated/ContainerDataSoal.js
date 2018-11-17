@@ -5,7 +5,16 @@ import swal from "sweetalert";
 
 class ContainerDataSoal extends Container {
   state = {
-    semua_soal: []
+    semua_soal: [],
+    formulirDataSoal: {
+      soal: "",
+      pilihan_1: "",
+      pilihan_2: "",
+      pilihan_3: "",
+      pilihan_4: "",
+      jawaban: "",
+      nilai_soal: undefined
+    }
   };
 
   async ambilDataSemuaSoal() {
@@ -21,6 +30,44 @@ class ContainerDataSoal extends Container {
         );
       }
     }
+  }
+  perbaruiSoalUjian(soal) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, soal }
+    }));
+  }
+  perbaruiPilihan1Ujian(pilihan_1) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_1 }
+    }));
+  }
+  perbaruiPilihan2Ujian(pilihan_2) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_2 }
+    }));
+  }
+  perbaruiPilihan3Ujian(pilihan_3) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_3 }
+    }));
+  }
+  perbaruiPilihan4Ujian(pilihan_4) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_4 }
+    }));
+  }
+  perbaruiJawabanUjian(jawaban) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, jawaban }
+    }));
+  }
+  perbaruiNilaiUjian(nilai) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, nilai }
+    }));
+  }
+  masukkanFormulirUjian() {
+    console.log(this.state.formulirDataSoal);
   }
 }
 export default ContainerDataSoal;

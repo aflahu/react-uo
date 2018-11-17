@@ -25,7 +25,6 @@ import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import AddIcon from "@material-ui/icons/Add";
-import RSelect from "react-select";
 import MaterialSelect from "../../material/MaterialSelect";
 
 const hiasan = theme => ({
@@ -133,12 +132,20 @@ class DataUtama extends Component {
                         label="NIP"
                         type="number"
                         fullWidth
+                        value={data.state.formulirDataGuru.no}
+                        onChange={event =>
+                          data.perbaruiNoGuru(event.currentTarget.value)
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="nama"
                         label="Nama"
                         fullWidth
+                        value={data.state.formulirDataGuru.nama}
+                        onChange={event =>
+                          data.perbaruiNamaGuru(event.currentTarget.value)
+                        }
                       />
                       <TextField
                         margin="dense"
@@ -146,13 +153,29 @@ class DataUtama extends Component {
                         label="Kunci"
                         type="password"
                         fullWidth
+                        value={data.state.formulirDataGuru.kunci}
+                        onChange={event =>
+                          data.perbaruiKunciGuru(event.currentTarget.value)
+                        }
                       />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
+                      <Button
+                        onClick={() => {
+                          data.masukkanFormulirGuru();
+                          this.handleClose();
+                        }}
+                        color="primary"
+                      >
                         Cancel
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
+                      <Button
+                        onClick={() => {
+                          data.masukkanFormulirGuru();
+                          this.handleClose();
+                        }}
+                        color="primary"
+                      >
                         Subscribe
                       </Button>
                     </DialogActions>
@@ -196,12 +219,20 @@ class DataUtama extends Component {
                         label="NIS"
                         type="number"
                         fullWidth
+                        value={data.state.formulirDataGuru.No}
+                        onChange={event =>
+                          data.perbaruiNoMurid(event.currentTarget.value)
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="nama"
                         label="Nama"
                         fullWidth
+                        value={data.state.formulirDataGuru.Nama}
+                        onChange={event =>
+                          data.perbaruiNamaMurid(event.currentTarget.value)
+                        }
                       />
                       <TextField
                         margin="dense"
@@ -209,13 +240,23 @@ class DataUtama extends Component {
                         label="Kunci"
                         type="password"
                         fullWidth
+                        value={data.state.formulirDataGuru.Kunci}
+                        onChange={event =>
+                          data.perbaruiKunciMurid(event.currentTarget.value)
+                        }
                       />
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={this.handleClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
+                      <Button
+                        onClick={() => {
+                          data.masukkanFormulirMurid();
+                          this.handleClose();
+                        }}
+                        color="primary"
+                      >
                         Subscribe
                       </Button>
                     </DialogActions>

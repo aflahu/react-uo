@@ -5,7 +5,12 @@ import swal from "sweetalert";
 
 class ContainerDataKelas extends Container {
   state = {
-    semua_kelas: []
+    semua_kelas: [],
+    formulirDataKelas: {
+      nama: "",
+      tanggal: undefined,
+      murid_di_kelas: []
+    }
   };
   async ambilDataSemuaKelas() {
     try {
@@ -20,6 +25,24 @@ class ContainerDataKelas extends Container {
         );
       }
     }
+  }
+  perbaruiNamaKelas(nama) {
+    this.setState(sebelumnya => ({
+      formulirDataKelas: { ...sebelumnya.formulirDataKelas, nama }
+    }));
+  }
+  perbaruiTanggalKelas(tanggal) {
+    this.setState(sebelumnya => ({
+      formulirDataKelas: { ...sebelumnya.formulirDataKelas, tanggal }
+    }));
+  }
+  perbaruiMuridKelas(murid_di_kelas) {
+    this.setState(sebelumnya => ({
+      formulirDataKelas: { ...sebelumnya.formulirDataKelas, murid_di_kelas }
+    }));
+  }
+  masukkanFormulirKelas() {
+    console.log(this.state.formulirDataKelas);
   }
 }
 export default ContainerDataKelas;

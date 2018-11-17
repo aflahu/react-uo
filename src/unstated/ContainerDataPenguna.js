@@ -7,7 +7,17 @@ class ContainerDataPengguna extends Container {
   state = {
     admin: [],
     guru: [],
-    murid: []
+    murid: [],
+    formulirDataGuru: {
+      no: undefined,
+      nama: "",
+      kunci: ""
+    },
+    formulirDataMurid: {
+      no: undefined,
+      nama: "",
+      kunci: ""
+    }
   };
 
   async ambilDataGuru() {
@@ -53,6 +63,46 @@ class ContainerDataPengguna extends Container {
         );
       }
     }
+  }
+
+  // fromulir untuk data Guru
+  perbaruiNoGuru(no) {
+    this.setState(sebelumnya => ({
+      formulirDataGuru: { ...sebelumnya.formulirDataGuru, no }
+    }));
+  }
+  perbaruiNamaGuru(nama) {
+    this.setState(sebelumnya => ({
+      formulirDataGuru: { ...sebelumnya.formulirDataGuru, nama }
+    }));
+  }
+  perbaruiKunciGuru(kunci) {
+    this.setState(sebelumnya => ({
+      formulirDataGuru: { ...sebelumnya.formulirDataGuru, kunci }
+    }));
+  }
+  masukkanFormulirGuru() {
+    console.log(this.state.formulirDataGuru);
+  }
+
+  // fromulir untuk data Murid
+  perbaruiNoMurid(no) {
+    this.setState(sebelumnya => ({
+      formulirDataMurid: { ...sebelumnya.formulirDataMurid, no }
+    }));
+  }
+  perbaruiNamaMurid(nama) {
+    this.setState(sebelumnya => ({
+      formulirDataMurid: { ...sebelumnya.formulirDataMurid, nama }
+    }));
+  }
+  perbaruiKunciMurid(kunci) {
+    this.setState(sebelumnya => ({
+      formulirDataMurid: { ...sebelumnya.formulirDataMurid, kunci }
+    }));
+  }
+  masukkanFormulirMurid() {
+    console.log(this.state.formulirDataMurid);
   }
 }
 export default ContainerDataPengguna;
