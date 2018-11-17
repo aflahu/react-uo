@@ -12,7 +12,12 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  Input,
+  MenuItem
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { Subscribe } from "unstated";
@@ -20,6 +25,8 @@ import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import AddIcon from "@material-ui/icons/Add";
+import RSelect from "react-select";
+import MaterialSelect from "../../material/MaterialSelect";
 
 const hiasan = theme => ({
   utama: {
@@ -60,14 +67,14 @@ const hiasan = theme => ({
 class DataUtama extends Component {
   state = {
     value: 0,
-    open: false
+    formulir: 0
   };
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen = f => {
+    this.setState({ formulir: f });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ formulir: 0 });
   };
 
   handleChange = (event, value) => {
@@ -95,10 +102,9 @@ class DataUtama extends Component {
               return (
                 <div style={{ width: "100%" }}>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
-                    onClick={this.handleClickOpen}
+                    onClick={() => this.handleClickOpen(1)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -112,7 +118,7 @@ class DataUtama extends Component {
                     title="Data Guru"
                   />
                   <Dialog
-                    open={this.state.open}
+                    open={this.state.formulir === 1}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                   >
@@ -129,14 +135,12 @@ class DataUtama extends Component {
                         fullWidth
                       />
                       <TextField
-                        autoFocus
                         margin="dense"
                         id="nama"
                         label="Nama"
                         fullWidth
                       />
                       <TextField
-                        autoFocus
                         margin="dense"
                         id="kunci"
                         label="Kunci"
@@ -161,9 +165,9 @@ class DataUtama extends Component {
               return (
                 <div>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={() => this.handleClickOpen(2)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -177,12 +181,12 @@ class DataUtama extends Component {
                     title="Data Murid"
                   />
                   <Dialog
-                    open={this.state.open}
+                    open={this.state.formulir === 2}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                   >
                     <DialogTitle id="form-dialog-title">
-                      Tambah Data Guru
+                      Tambah Data Murid
                     </DialogTitle>
                     <DialogContent>
                       <TextField
@@ -194,14 +198,12 @@ class DataUtama extends Component {
                         fullWidth
                       />
                       <TextField
-                        autoFocus
                         margin="dense"
                         id="nama"
                         label="Nama"
                         fullWidth
                       />
                       <TextField
-                        autoFocus
                         margin="dense"
                         id="kunci"
                         label="Kunci"
@@ -226,9 +228,9 @@ class DataUtama extends Component {
               return (
                 <div style={{ width: "100%" }}>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={() => this.handleClickOpen(3)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -242,6 +244,41 @@ class DataUtama extends Component {
                     data={data_kelas.state.semua_kelas}
                     title="Data Kelas"
                   />
+                  <Dialog
+                    open={this.state.formulir === 3}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                    scroll="body"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Kelas
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="nama"
+                        label="Nama"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="tanggal"
+                        label="Tanggal"
+                        fullWidth
+                      />
+                      <MaterialSelect label="Murid" isMulti />
+                      <div style={{ paddingBottom: 300 }} />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }
@@ -249,13 +286,6 @@ class DataUtama extends Component {
               data_ujian.ambilDataSemuaUjian();
               return (
                 <div style={{ width: "100%" }}>
-                  <IconButton
-                    color="secondary"
-                    size="small"
-                    className={classes.tambah}
-                  >
-                    <AddIcon />
-                  </IconButton>
                   <MaterialTable
                     columns={[
                       { title: "No. Ujian", field: "no", type: "numeric" },

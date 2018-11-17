@@ -5,7 +5,13 @@ import {
   AppBar,
   Tabs,
   Tab,
-  IconButton
+  IconButton,
+  Button,
+  DialogActions,
+  TextField,
+  DialogContent,
+  DialogTitle,
+  Dialog
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
@@ -13,6 +19,7 @@ import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import ContainerDataSoal from "../../unstated/ContainerDataSoal";
 import { Subscribe } from "unstated";
 import AddIcon from "@material-ui/icons/Add";
+import MaterialSelect from "../../material/MaterialSelect";
 
 const hiasan = theme => ({
   utama: {
@@ -52,7 +59,15 @@ const hiasan = theme => ({
 
 class MenuGuru extends Component {
   state = {
-    value: 0
+    value: 0,
+    formulir: 0
+  };
+  handleClickOpen = f => {
+    this.setState({ formulir: f });
+  };
+
+  handleClose = () => {
+    this.setState({ formulir: 0 });
   };
 
   handleChange = (event, value) => {
@@ -79,9 +94,9 @@ class MenuGuru extends Component {
               return (
                 <div style={{ width: "100%" }}>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={() => this.handleClickOpen(1)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -96,6 +111,50 @@ class MenuGuru extends Component {
                     data={data_kelas.state.semua_kelas}
                     title="Data Kelas"
                   />
+                  <Dialog
+                    open={this.state.formulir === 1}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Kelas
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="nama"
+                        label="Nama"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="tanggal"
+                        label="Tanggal"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="murid_di_kelas"
+                        label="Murid di kelas"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="ujian"
+                        label="Ujian"
+                        fullWidth
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }
@@ -104,9 +163,9 @@ class MenuGuru extends Component {
               return (
                 <div style={{ width: "100%" }}>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={() => this.handleClickOpen(2)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -119,12 +178,60 @@ class MenuGuru extends Component {
                       { title: "Lama Waktu", field: "waktu" },
                       { title: "Guru", field: "guru" },
                       { title: "Kelas kelas ujian", field: "kelas_kelas_ujian" }
-                      // data soal
-                      // data nilai
                     ]}
                     data={data_ujian.state.semua_ujian}
                     title="Data Ujian"
                   />
+                  <Dialog
+                    open={this.state.formulir === 2}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                    scroll="body"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Ujian
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="judul"
+                        label="Judul"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="nama_mapel"
+                        label="Nama mata pelajaran"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="tanggal"
+                        label="Tanggal"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="waktu"
+                        label="Waktu"
+                        type="number"
+                        fullWidth
+                      />
+                      <MaterialSelect label="Guru" />
+                      <MaterialSelect label="Kelas" />
+                      <MaterialSelect label="Soal" />
+                      <div style={{ paddingBottom: 300 }} />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }
@@ -133,9 +240,9 @@ class MenuGuru extends Component {
               return (
                 <div style={{ width: "100%" }}>
                   <IconButton
-                    color="secondary"
                     size="small"
                     className={classes.tambah}
+                    onClick={() => this.handleClickOpen(3)}
                   >
                     <AddIcon />
                   </IconButton>
@@ -154,6 +261,73 @@ class MenuGuru extends Component {
                     data={data_soal.state.semua_soal}
                     title="Data Soal"
                   />
+                  <Dialog
+                    open={this.state.formulir === 3}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                    scroll="body"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Tambah Data Soal
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="soal"
+                        label="Pertanyaan"
+                        multiline
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="pilihan_1"
+                        label="Pilihan 1"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="pilihan_2"
+                        label="Pilihan 2"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="pilihan_3"
+                        label="Pilihan 3"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="pilihan_4"
+                        label="Pilihan 4"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="jawaban"
+                        label="Jawaban"
+                        fullWidth
+                      />
+                      <TextField
+                        margin="dense"
+                        id="nilai_soal"
+                        label="Nilai"
+                        type="number"
+                        fullWidth
+                      />
+                      <MaterialSelect label="Ujian" />
+                      <div style={{ paddingBottom: 300 }} />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleClose} color="primary">
+                        Subscribe
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               );
             }

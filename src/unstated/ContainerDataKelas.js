@@ -7,7 +7,6 @@ class ContainerDataKelas extends Container {
   state = {
     semua_kelas: []
   };
-
   async ambilDataSemuaKelas() {
     try {
       const result = await Axios.get(Data.url + "/kelas");
