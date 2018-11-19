@@ -223,17 +223,19 @@ const components = {
 class MaterialSelect extends Component {
   state = {
     multi: null,
-    single: null
+    single: null,
+    data: null
   };
 
   handleChange = name => value => {
     this.setState({
-      [name]: value
+      // [name]: value
+      data: value
     });
   };
 
   render() {
-    const { classes, theme, label, isMulti } = this.props;
+    const { classes, theme, label, isMulti, value, onChange } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -259,8 +261,8 @@ class MaterialSelect extends Component {
             }}
             options={suggestions}
             components={components}
-            value={this.state.multi}
-            onChange={this.handleChange("multi")}
+            value={value}
+            onChange={onChange}
             isMulti
           />
         ) : (
@@ -275,8 +277,8 @@ class MaterialSelect extends Component {
             }}
             options={suggestions}
             components={components}
-            value={this.state.single}
-            onChange={this.handleChange("single")}
+            value={value}
+            onChange={onChange}
           />
         )}
         {/* </NoSsr> */}

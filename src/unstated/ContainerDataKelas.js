@@ -26,23 +26,33 @@ class ContainerDataKelas extends Container {
       }
     }
   }
-  perbaruiNamaKelas(nama) {
-    this.setState(sebelumnya => ({
+  async perbaruiNamaKelas(nama) {
+    await this.setState(sebelumnya => ({
       formulirDataKelas: { ...sebelumnya.formulirDataKelas, nama }
     }));
   }
-  perbaruiTanggalKelas(tanggal) {
-    this.setState(sebelumnya => ({
+  async perbaruiTanggalKelas(tanggal) {
+    await this.setState(sebelumnya => ({
       formulirDataKelas: { ...sebelumnya.formulirDataKelas, tanggal }
     }));
   }
-  perbaruiMuridKelas(murid_di_kelas) {
-    this.setState(sebelumnya => ({
+  async perbaruiMuridKelas(murid_di_kelas) {
+    await this.setState(sebelumnya => ({
       formulirDataKelas: { ...sebelumnya.formulirDataKelas, murid_di_kelas }
     }));
   }
-  masukkanFormulirKelas() {
-    console.log(this.state.formulirDataKelas);
+  async bersihkanFormulirKelas(e) {
+    e.preventDefault();
+    await this.setState({
+      formulirDataKelas: { nama: "", tanggal: undefined, murid_di_kelas: [] }
+    });
+  }
+  async masukkanFormulirKelas(e) {
+    e.preventDefault();
+    console.log(await this.state.formulirDataKelas);
+    await this.setState({
+      formulirDataKelas: { nama: "", tanggal: undefined, murid_di_kelas: [] }
+    });
   }
 }
 export default ContainerDataKelas;

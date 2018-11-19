@@ -81,8 +81,18 @@ class ContainerDataPengguna extends Container {
       formulirDataGuru: { ...sebelumnya.formulirDataGuru, kunci }
     }));
   }
-  masukkanFormulirGuru() {
-    console.log(this.state.formulirDataGuru);
+  async bersihkanFormulirMurid(e) {
+    e.preventDefault();
+    await this.setState({
+      formulirDataMurid: { no: undefined, nama: "", kunci: "" }
+    });
+  }
+  async masukkanFormulirMurid(e) {
+    e.preventDefault();
+    console.log(await this.state.formulirDataMurid);
+    await this.setState({
+      formulirDataMurid: { no: undefined, nama: "", kunci: "" }
+    });
   }
 
   // fromulir untuk data Murid
@@ -101,8 +111,18 @@ class ContainerDataPengguna extends Container {
       formulirDataMurid: { ...sebelumnya.formulirDataMurid, kunci }
     }));
   }
-  masukkanFormulirMurid() {
-    console.log(this.state.formulirDataMurid);
+  async bersihkanFormulirGuru(e) {
+    e.preventDefault();
+    await this.setState({
+      formulirDataGuru: { no: undefined, nama: "", kunci: "" }
+    });
+  }
+  async masukkanFormulirGuru(e) {
+    e.preventDefault();
+    console.log(await this.state.formulirDataMurid);
+    await this.setState({
+      formulirDataGuru: { no: undefined, nama: "", kunci: "" }
+    });
   }
 }
 export default ContainerDataPengguna;

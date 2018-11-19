@@ -161,22 +161,22 @@ class DataUtama extends Component {
                     </DialogContent>
                     <DialogActions>
                       <Button
-                        onClick={() => {
-                          data.masukkanFormulirGuru();
+                        onClick={e => {
                           this.handleClose();
+                          data_kelas.bersihkanFormulirGuru(e);
                         }}
                         color="primary"
                       >
-                        Cancel
+                        Batal
                       </Button>
                       <Button
-                        onClick={() => {
-                          data.masukkanFormulirGuru();
+                        onClick={e => {
                           this.handleClose();
+                          data_kelas.masukkanFormulirGuru(e);
                         }}
                         color="primary"
                       >
-                        Subscribe
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -247,17 +247,23 @@ class DataUtama extends Component {
                       />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
-                        Cancel
-                      </Button>
                       <Button
-                        onClick={() => {
-                          data.masukkanFormulirMurid();
+                        onClick={e => {
                           this.handleClose();
+                          data_kelas.bersihkanFormulirMurid(e);
                         }}
                         color="primary"
                       >
-                        Subscribe
+                        Batal
+                      </Button>
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.masukkanFormulirMurid(e);
+                        }}
+                        color="primary"
+                      >
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -312,11 +318,23 @@ class DataUtama extends Component {
                       <div style={{ paddingBottom: 300 }} />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
-                        Cancel
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.bersihkanFormulirKelas(e);
+                        }}
+                        color="primary"
+                      >
+                        Batal
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
-                        Subscribe
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.masukkanFormulirKelas(e);
+                        }}
+                        color="primary"
+                      >
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>

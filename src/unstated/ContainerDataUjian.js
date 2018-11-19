@@ -6,7 +6,7 @@ import swal from "sweetalert";
 class ContainerDataUjian extends Container {
   state = {
     semua_ujian: [],
-    formulirDataKelas: {
+    formulirDataUjian: {
       judul: "",
       nama_mapel: "",
       tanggal: undefined,
@@ -34,41 +34,67 @@ class ContainerDataUjian extends Container {
 
   perbaruiJudulUjian(judul) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, judul }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, judul }
     }));
   }
   perbaruiMapelUjian(nama_mapel) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, nama_mapel }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, nama_mapel }
     }));
   }
   perbaruiTanggalUjian(tanggal) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, tanggal }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, tanggal }
     }));
   }
   perbaruiWaktuUjian(waktu) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, waktu }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, waktu }
     }));
   }
   perbaruiGuruUjian(guru) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, guru }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, guru }
     }));
   }
   perbaruiKelasUjian(kelas) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, kelas }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, kelas }
     }));
   }
   perbaruiSoalUjian(soal) {
     this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, soal }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, soal }
     }));
   }
-  masukkanFormulirUjian() {
-    console.log(this.state.formulirDataKelas);
+  async bersihkanFormulirUjian(e) {
+    e.preventDefault();
+    await this.setState({
+      formulirDataUjian: {
+        judul: "",
+        nama_mapel: "",
+        tanggal: undefined,
+        waktu: "",
+        guru: "",
+        kelas: "",
+        soal: []
+      }
+    });
+  }
+  async masukkanFormulirUjian(e) {
+    e.preventDefault();
+    console.log(await this.state.formulirDataUjian);
+    await this.setState({
+      formulirDataUjian: {
+        judul: "",
+        nama_mapel: "",
+        tanggal: undefined,
+        waktu: "",
+        guru: "",
+        kelas: "",
+        soal: []
+      }
+    });
   }
 }
 export default ContainerDataUjian;

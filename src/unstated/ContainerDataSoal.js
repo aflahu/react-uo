@@ -8,6 +8,7 @@ class ContainerDataSoal extends Container {
     semua_soal: [],
     formulirDataSoal: {
       soal: "",
+      tanda: "",
       pilihan_1: "",
       pilihan_2: "",
       pilihan_3: "",
@@ -31,43 +32,76 @@ class ContainerDataSoal extends Container {
       }
     }
   }
-  perbaruiSoalUjian(soal) {
+  perbaruiSoalSoal(soal) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, soal }
     }));
   }
-  perbaruiPilihan1Ujian(pilihan_1) {
+  perbaruiTandaSoal(tanda) {
+    this.setState(sebelumnya => ({
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, tanda }
+    }));
+  }
+  perbaruiPilihan1Soal(pilihan_1) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_1 }
     }));
   }
-  perbaruiPilihan2Ujian(pilihan_2) {
+  perbaruiPilihan2Soal(pilihan_2) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_2 }
     }));
   }
-  perbaruiPilihan3Ujian(pilihan_3) {
+  perbaruiPilihan3Soal(pilihan_3) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_3 }
     }));
   }
-  perbaruiPilihan4Ujian(pilihan_4) {
+  perbaruiPilihan4Soal(pilihan_4) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, pilihan_4 }
     }));
   }
-  perbaruiJawabanUjian(jawaban) {
+  perbaruiJawabanSoal(jawaban) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, jawaban }
     }));
   }
-  perbaruiNilaiUjian(nilai) {
+  perbaruiNilaiSoal(nilai) {
     this.setState(sebelumnya => ({
       formulirDataSoal: { ...sebelumnya.formulirDataSoal, nilai }
     }));
   }
-  masukkanFormulirUjian() {
-    console.log(this.state.formulirDataSoal);
+  async bersihkanFormulirSoal(e) {
+    e.preventDefault();
+    await this.setState({
+      formulirDataSoal: {
+        soal: "",
+        tanda: "",
+        pilihan_1: "",
+        pilihan_2: "",
+        pilihan_3: "",
+        pilihan_4: "",
+        jawaban: "",
+        nilai_soal: undefined
+      }
+    });
+  }
+  async masukkanFormulirSoal(e) {
+    e.preventDefault();
+    console.log(await this.state.formulirDataSoal);
+    await this.setState({
+      formulirDataSoal: {
+        soal: "",
+        tanda: "",
+        pilihan_1: "",
+        pilihan_2: "",
+        pilihan_3: "",
+        pilihan_4: "",
+        jawaban: "",
+        nilai_soal: undefined
+      }
+    });
   }
 }
 export default ContainerDataSoal;

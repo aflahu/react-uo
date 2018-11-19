@@ -115,6 +115,7 @@ class MenuGuru extends Component {
                     open={this.state.formulir === 1}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
+                    scroll="body"
                   >
                     <DialogTitle id="form-dialog-title">
                       Tambah Data Kelas
@@ -126,32 +127,53 @@ class MenuGuru extends Component {
                         id="nama"
                         label="Nama"
                         fullWidth
+                        value={data_kelas.state.formulirDataKelas.nama}
+                        onChange={event =>
+                          data_kelas.perbaruiNamaKelas(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="tanggal"
                         label="Tanggal"
                         fullWidth
+                        value={data_kelas.state.formulirDataKelas.tanggal}
+                        onChange={event =>
+                          data_kelas.perbaruiTanggalKelas(
+                            event.currentTarget.value
+                          )
+                        }
                       />
-                      <TextField
-                        margin="dense"
-                        id="murid_di_kelas"
+                      <MaterialSelect
                         label="Murid di kelas"
-                        fullWidth
+                        isMulti
+                        value={
+                          data_kelas.state.formulirDataKelas.murid_di_kelas
+                        }
+                        onChange={value => data_kelas.perbaruiMuridKelas(value)}
                       />
-                      <TextField
-                        margin="dense"
-                        id="ujian"
-                        label="Ujian"
-                        fullWidth
-                      />
+                      <div style={{ paddingBottom: 300 }} />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
-                        Cancel
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.bersihkanFormulirKelas(e);
+                        }}
+                        color="primary"
+                      >
+                        Batal
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
-                        Subscribe
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.masukkanFormulirKelas(e);
+                        }}
+                        color="primary"
+                      >
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -198,18 +220,36 @@ class MenuGuru extends Component {
                         id="judul"
                         label="Judul"
                         fullWidth
+                        value={data_ujian.state.formulirDataUjian.judul}
+                        onChange={event =>
+                          data_ujian.perbaruiJudulUjian(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="nama_mapel"
                         label="Nama mata pelajaran"
                         fullWidth
+                        value={data_ujian.state.formulirDataUjian.nama_mapel}
+                        onChange={event =>
+                          data_ujian.perbaruiMapelUjian(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="tanggal"
                         label="Tanggal"
                         fullWidth
+                        value={data_ujian.state.formulirDataUjian.tanngal}
+                        onChange={event =>
+                          data_ujian.perbaruiTanggalUjian(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
@@ -217,18 +257,50 @@ class MenuGuru extends Component {
                         label="Waktu"
                         type="number"
                         fullWidth
+                        value={data_ujian.state.formulirDataUjian.waktu}
+                        onChange={event =>
+                          data_ujian.perbaruiWaktuUjian(
+                            event.currentTarget.value
+                          )
+                        }
                       />
-                      <MaterialSelect label="Guru" />
-                      <MaterialSelect label="Kelas" />
-                      <MaterialSelect label="Soal" />
+                      <MaterialSelect
+                        label="Guru"
+                        value={data_ujian.state.formulirDataUjian.guru}
+                        onChange={value => data_ujian.perbaruiGuruUjian(value)}
+                      />
+                      <MaterialSelect
+                        label="Kelas"
+                        isMulti
+                        value={data_ujian.state.formulirDataUjian.kelas}
+                        onChange={value => data_ujian.perbaruiKelasUjian(value)}
+                      />
+                      <MaterialSelect
+                        label="Soal"
+                        isMulti
+                        value={data_ujian.state.formulirDataUjian.soal}
+                        onChange={value => data_ujian.perbaruiSoalUjian(value)}
+                      />
                       <div style={{ paddingBottom: 300 }} />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
-                        Cancel
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.bersihkanFormulirUjian(e);
+                        }}
+                        color="primary"
+                      >
+                        Batal
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
-                        Subscribe
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.masukkanFormulirUjian(e);
+                        }}
+                        color="primary"
+                      >
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -278,36 +350,75 @@ class MenuGuru extends Component {
                         label="Pertanyaan"
                         multiline
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.soal}
+                        onChange={event =>
+                          data_soal.perbaruiSoalSoal(event.currentTarget.value)
+                        }
+                      />
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="tanda"
+                        label="Tanda"
+                        multiline
+                        fullWidth
+                        value={data_soal.state.formulirDataSoal.tanda}
+                        onChange={event =>
+                          data_soal.perbaruiTandaSoal(event.currentTarget.value)
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="pilihan_1"
                         label="Pilihan 1"
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.pilihan_1}
+                        onChange={event =>
+                          data_soal.perbaruiPilihan1Soal(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="pilihan_2"
                         label="Pilihan 2"
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.pilihan_2}
+                        onChange={event =>
+                          data_soal.perbaruiPilihan2Soal(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="pilihan_3"
                         label="Pilihan 3"
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.pilihan_3}
+                        onChange={event =>
+                          data_soal.perbaruiPilihan3Soal(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="pilihan_4"
                         label="Pilihan 4"
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.pilihan_4}
+                        onChange={event =>
+                          data_soal.perbaruiPilihan4Soal(
+                            event.currentTarget.value
+                          )
+                        }
                       />
-                      <TextField
-                        margin="dense"
-                        id="jawaban"
+                      <MaterialSelect
                         label="Jawaban"
-                        fullWidth
+                        value={data_soal.state.formulirDataSoal.jawaban}
+                        onChange={value => data_soal.perbaruiJawabanSoal(value)}
                       />
                       <TextField
                         margin="dense"
@@ -315,16 +426,34 @@ class MenuGuru extends Component {
                         label="Nilai"
                         type="number"
                         fullWidth
+                        value={data_soal.state.formulirDataSoal.jawaban}
+                        onChange={event =>
+                          data_soal.perbaruiJawabanSoal(
+                            event.currentTarget.value
+                          )
+                        }
                       />
-                      <MaterialSelect label="Ujian" />
+
                       <div style={{ paddingBottom: 300 }} />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={this.handleClose} color="primary">
-                        Cancel
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.bersihkanFormulirSoal(e);
+                        }}
+                        color="primary"
+                      >
+                        Batal
                       </Button>
-                      <Button onClick={this.handleClose} color="primary">
-                        Subscribe
+                      <Button
+                        onClick={e => {
+                          this.handleClose();
+                          data_kelas.masukkanFormulirSoal(e);
+                        }}
+                        color="primary"
+                      >
+                        Masukkan
                       </Button>
                     </DialogActions>
                   </Dialog>
