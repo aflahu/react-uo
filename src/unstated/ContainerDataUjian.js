@@ -95,6 +95,7 @@ class ContainerDataUjian extends Container {
         soal: []
       }
     });
+    await this.ambilDataSemuaUjian();
   }
 }
 export default ContainerDataUjian;

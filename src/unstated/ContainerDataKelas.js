@@ -53,6 +53,7 @@ class ContainerDataKelas extends Container {
     await this.setState({
       formulirDataKelas: { nama: "", tanggal: undefined, murid_di_kelas: [] }
     });
+    await this.ambilDataSemuaKelas();
   }
 }
 export default ContainerDataKelas;

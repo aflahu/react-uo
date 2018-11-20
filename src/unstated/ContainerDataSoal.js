@@ -102,6 +102,7 @@ class ContainerDataSoal extends Container {
         nilai_soal: undefined
       }
     });
+    await this.ambilDataSemuaSoal();
   }
 }
 export default ContainerDataSoal;

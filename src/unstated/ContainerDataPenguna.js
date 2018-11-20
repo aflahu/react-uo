@@ -88,6 +88,7 @@ class ContainerDataPengguna extends Container {
     await this.setState({
       formulirDataMurid: { no: undefined, nama: "", kunci: "", tipe: "murid" }
     });
+    await this.ambilDataMurid();
   }
   async masukkanFormulirMurid(e) {
     e.preventDefault();
@@ -130,6 +131,7 @@ class ContainerDataPengguna extends Container {
       await this.setState({
         formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
       });
+      await this.ambilDataGuru();
     } catch (error) {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
