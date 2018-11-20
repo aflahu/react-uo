@@ -9,14 +9,16 @@ class ContainerDataPengguna extends Container {
     guru: [],
     murid: [],
     formulirDataGuru: {
-      no: undefined,
+      no: "",
       nama: "",
-      kunci: ""
+      kunci: "",
+      tipe: "guru"
     },
     formulirDataMurid: {
-      no: undefined,
+      no: "",
       nama: "",
-      kunci: ""
+      kunci: "",
+      tipe: "murid"
     }
   };
 
@@ -84,15 +86,19 @@ class ContainerDataPengguna extends Container {
   async bersihkanFormulirMurid(e) {
     e.preventDefault();
     await this.setState({
-      formulirDataMurid: { no: undefined, nama: "", kunci: "" }
+      formulirDataMurid: { no: undefined, nama: "", kunci: "", tipe: "murid" }
     });
   }
   async masukkanFormulirMurid(e) {
     e.preventDefault();
-    console.log(await this.state.formulirDataMurid);
-    await this.setState({
-      formulirDataMurid: { no: undefined, nama: "", kunci: "" }
-    });
+    try {
+      await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
+      await this.setState({
+        formulirDataMurid: { no: undefined, nama: "", kunci: "", tipe: "murid" }
+      });
+    } catch (error) {
+      swal("Silahkan perbaiki data masukan", "", "error");
+    }
   }
 
   // fromulir untuk data Murid
@@ -114,15 +120,19 @@ class ContainerDataPengguna extends Container {
   async bersihkanFormulirGuru(e) {
     e.preventDefault();
     await this.setState({
-      formulirDataGuru: { no: undefined, nama: "", kunci: "" }
+      formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
     });
   }
   async masukkanFormulirGuru(e) {
     e.preventDefault();
-    console.log(await this.state.formulirDataMurid);
-    await this.setState({
-      formulirDataGuru: { no: undefined, nama: "", kunci: "" }
-    });
+    try {
+      await Axios.post(Data.url + "/pengguna", this.state.formulirDataGuru);
+      await this.setState({
+        formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
+      });
+    } catch (error) {
+      swal("Silahkan perbaiki data masukan", "", "error");
+    }
   }
 }
 export default ContainerDataPengguna;

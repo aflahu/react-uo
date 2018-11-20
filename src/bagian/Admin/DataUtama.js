@@ -163,7 +163,7 @@ class DataUtama extends Component {
                       <Button
                         onClick={e => {
                           this.handleClose();
-                          data_kelas.bersihkanFormulirGuru(e);
+                          data.bersihkanFormulirGuru(e);
                         }}
                         color="primary"
                       >
@@ -172,7 +172,7 @@ class DataUtama extends Component {
                       <Button
                         onClick={e => {
                           this.handleClose();
-                          data_kelas.masukkanFormulirGuru(e);
+                          data.masukkanFormulirGuru(e);
                         }}
                         color="primary"
                       >
@@ -250,7 +250,7 @@ class DataUtama extends Component {
                       <Button
                         onClick={e => {
                           this.handleClose();
-                          data_kelas.bersihkanFormulirMurid(e);
+                          data.bersihkanFormulirMurid(e);
                         }}
                         color="primary"
                       >
@@ -259,7 +259,7 @@ class DataUtama extends Component {
                       <Button
                         onClick={e => {
                           this.handleClose();
-                          data_kelas.masukkanFormulirMurid(e);
+                          data.masukkanFormulirMurid(e);
                         }}
                         color="primary"
                       >
@@ -307,14 +307,33 @@ class DataUtama extends Component {
                         id="nama"
                         label="Nama"
                         fullWidth
+                        value={data_kelas.state.formulirDataKelas.nama}
+                        onChange={event =>
+                          data_kelas.perbaruiNamaKelas(
+                            event.currentTarget.value
+                          )
+                        }
                       />
                       <TextField
                         margin="dense"
                         id="tanggal"
                         label="Tanggal"
                         fullWidth
+                        value={data_kelas.state.formulirDataKelas.tanggal}
+                        onChange={event =>
+                          data_kelas.perbaruiTanggalKelas(
+                            event.currentTarget.value
+                          )
+                        }
                       />
-                      <MaterialSelect label="Murid" isMulti />
+                      <MaterialSelect
+                        label="Murid"
+                        isMulti
+                        value={
+                          data_kelas.state.formulirDataKelas.murid_di_kelas
+                        }
+                        onChange={value => data_kelas.perbaruiDataMurid(value)}
+                      />
                       <div style={{ paddingBottom: 300 }} />
                     </DialogContent>
                     <DialogActions>
@@ -367,4 +386,5 @@ class DataUtama extends Component {
     );
   }
 }
+
 export default withStyles(hiasan)(DataUtama);

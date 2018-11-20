@@ -13,6 +13,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "react-select": "^2.1.1",
+    "recompose": "^0.30.0",
     "sweetalert": "^2.1.2",
     "unstated": "^2.1.1",
     "unstated-connect": "0.0.3"
