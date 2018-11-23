@@ -77,6 +77,7 @@ class DataUtama extends Component {
     await data.ambilDataMurid();
     await data_kelas.ambilDataSemuaKelas();
     await data_ujian.ambilDataSemuaUjian();
+    await data.pilihanMurid();
   }
 
   handleClickOpen = f => {
@@ -284,7 +285,7 @@ class DataUtama extends Component {
                 { title: "No. Kelas", field: "no", type: "numeric" },
                 { title: "Nama", field: "nama" },
                 { title: "Tanggal", field: "tanggal" },
-                { title: "Murid-murid", field: "murid_di_kelas" }
+                { title: "Murid-murid", field: "murid_murid" }
               ]}
               data={data_kelas.state.semua_kelas}
               title="Data Kelas"
@@ -324,7 +325,8 @@ class DataUtama extends Component {
                   label="Murid"
                   isMulti
                   value={data_kelas.state.formulirDataKelas.murid_di_kelas}
-                  onChange={value => data_kelas.perbaruiDataMurid(value)}
+                  onChange={v => data_kelas.perbaruiMuridKelas(v)}
+                  pilihan={data.state.pilihanMurid}
                 />
                 <div style={{ paddingBottom: 300 }} />
               </DialogContent>

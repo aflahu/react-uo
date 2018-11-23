@@ -51,6 +51,12 @@ const suggestions = [
   label: suggestion.label
 }));
 
+const sgs = [
+  { value: "1", label: "1 | Chocolate" },
+  { value: "2", label: "2 | Strawberry" },
+  { value: "3", label: "3 | Vanilla" }
+];
+
 const hiasan = theme => ({
   root: {
     flexGrow: 1,
@@ -235,7 +241,15 @@ class MaterialSelect extends Component {
   };
 
   render() {
-    const { classes, theme, label, isMulti, value, onChange } = this.props;
+    const {
+      classes,
+      theme,
+      label,
+      isMulti,
+      value,
+      onChange,
+      pilihan
+    } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -259,7 +273,7 @@ class MaterialSelect extends Component {
                 shrink: true
               }
             }}
-            options={suggestions}
+            options={pilihan}
             components={components}
             value={value}
             onChange={onChange}
@@ -275,7 +289,7 @@ class MaterialSelect extends Component {
                 shrink: true
               }
             }}
-            options={suggestions}
+            options={pilihan}
             components={components}
             value={value}
             onChange={onChange}

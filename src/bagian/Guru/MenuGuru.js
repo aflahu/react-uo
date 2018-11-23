@@ -22,6 +22,7 @@ import AddIcon from "@material-ui/icons/Add";
 import MaterialSelect from "../../material/MaterialSelect";
 import { compose } from "recompose";
 import Containers from "unstated-connect";
+import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 
 const hiasan = theme => ({
   utama: {
@@ -65,10 +66,11 @@ class MenuGuru extends Component {
     formulir: 0
   };
   async componentDidMount() {
-    const [data_soal, data_kelas, data_ujian] = this.props.containers;
+    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
     await data_soal.ambilDataSemuaSoal();
     await data_kelas.ambilDataSemuaKelas();
     await data_ujian.ambilDataSemuaUjian();
+    await data.pilihanMurid();
   }
   handleClickOpen = f => {
     this.setState({ formulir: f });
@@ -84,7 +86,7 @@ class MenuGuru extends Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    const [data_soal, data_kelas, data_ujian] = this.props.containers;
+    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
     return (
       <div className={classes.utama}>
         <AppBar position="static" elevation={7}>
@@ -108,7 +110,7 @@ class MenuGuru extends Component {
                 { title: "No. Kelas", field: "no", type: "numeric" },
                 { title: "Nama", field: "nama" },
                 { title: "Tanggal", field: "tanggal" },
-                { title: "Murid-murid", field: "murid_di_kelas" },
+                { title: "Murid-murid", field: "murid_murid" },
                 { title: "Ujian", field: "ujian" }
               ]}
               data={data_kelas.state.semua_kelas}
@@ -146,10 +148,11 @@ class MenuGuru extends Component {
                   }
                 />
                 <MaterialSelect
-                  label="Murid di kelas"
+                  label="Murid"
                   isMulti
                   value={data_kelas.state.formulirDataKelas.murid_di_kelas}
-                  onChange={value => data_kelas.perbaruiMuridKelas(value)}
+                  onChange={v => data_kelas.perbaruiMuridKelas(v)}
+                  pilihan={data.state.pilihanMurid}
                 />
                 <div style={{ paddingBottom: 300 }} />
               </DialogContent>
@@ -437,6 +440,11 @@ class MenuGuru extends Component {
 
 const gabungan = compose(
   withStyles(hiasan),
-  Containers([ContainerDataSoal, ContainerDataKelas, ContainerDataUjian])
+  Containers([
+    ContainerDataPengguna,
+    ContainerDataSoal,
+    ContainerDataKelas,
+    ContainerDataUjian
+  ])
 );
 export default gabungan(MenuGuru);
