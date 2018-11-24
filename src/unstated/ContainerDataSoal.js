@@ -14,7 +14,7 @@ class ContainerDataSoal extends Container {
       pilihan_3: "",
       pilihan_4: "",
       jawaban: "",
-      nilai_soal: undefined
+      nilai_soal: ""
     }
   };
 
@@ -83,14 +83,24 @@ class ContainerDataSoal extends Container {
         pilihan_3: "",
         pilihan_4: "",
         jawaban: "",
-        nilai_soal: undefined
+        nilai_soal: ""
       }
     });
+  }
+  async pilihanSoal() {
+    const result = await Axios.get(Data.url + "/soal");
+    const pilihan = await result.data.map(isi => {
+      const value = isi.no;
+      const label = isi.no + " | " + isi.nama;
+      return { value, label };
+    });
+    this.setState({ pilihan_soal: pilihan });
   }
   async masukkanFormulirSoal(e) {
     e.preventDefault();
     console.log(await this.state.formulirDataSoal);
     await this.setState({
+      pilihan_soal: [],
       formulirDataSoal: {
         soal: "",
         tanda: "",
@@ -99,7 +109,7 @@ class ContainerDataSoal extends Container {
         pilihan_3: "",
         pilihan_4: "",
         jawaban: "",
-        nilai_soal: undefined
+        nilai_soal: ""
       }
     });
     await this.ambilDataSemuaSoal();

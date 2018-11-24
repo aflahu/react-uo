@@ -7,6 +7,7 @@ class ContainerDataPengguna extends Container {
   state = {
     admin: [],
     guru: [],
+    pilihan_guru: [],
     formulirDataGuru: {
       no: "",
       nama: "",
@@ -74,6 +75,15 @@ class ContainerDataPengguna extends Container {
       formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
     });
   }
+  async pilihanGuru() {
+    const result = await Axios.get(Data.url + "/pengguna/tipe/guru");
+    const pilihan = await result.data.map(isi => {
+      const value = isi.no;
+      const label = isi.no + " | " + isi.nama;
+      return { value, label };
+    });
+    this.setState({ pilihan_guru: pilihan });
+  }
   async masukkanFormulirGuru(e) {
     e.preventDefault();
     try {
@@ -82,6 +92,7 @@ class ContainerDataPengguna extends Container {
         formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
       });
       await this.ambilDataGuru();
+      await this.pilihanGuru();
     } catch (error) {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
@@ -129,7 +140,7 @@ class ContainerDataPengguna extends Container {
   async bersihkanFormulirMurid(e) {
     e.preventDefault();
     await this.setState({
-      formulirDataMurid: { no: undefined, nama: "", kunci: "", tipe: "murid" }
+      formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
     });
     await this.ambilDataMurid();
   }
@@ -138,7 +149,7 @@ class ContainerDataPengguna extends Container {
     try {
       await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
       await this.setState({
-        formulirDataMurid: { no: undefined, nama: "", kunci: "", tipe: "murid" }
+        formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
       });
       await this.ambilDataMurid();
       await this.pilihanMurid();

@@ -70,10 +70,14 @@ class MenuGuru extends Component {
     await data_soal.ambilDataSemuaSoal();
     await data_kelas.ambilDataSemuaKelas();
     await data_ujian.ambilDataSemuaUjian();
-    await data.pilihanMurid();
   }
-  handleClickOpen = f => {
+  handleClickOpen = async f => {
     this.setState({ formulir: f });
+    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
+    await data.pilihanMurid();
+    await data.pilihanGuru();
+    await data_kelas.pilihanKelas();
+    await data_soal.pilihanSoal();
   };
 
   handleClose = () => {
@@ -257,18 +261,21 @@ class MenuGuru extends Component {
                   label="Guru"
                   value={data_ujian.state.formulirDataUjian.guru}
                   onChange={value => data_ujian.perbaruiGuruUjian(value)}
+                  pilihan={data.state.pilihan_guru}
                 />
                 <MaterialSelect
                   label="Kelas"
                   isMulti
                   value={data_ujian.state.formulirDataUjian.kelas}
                   onChange={value => data_ujian.perbaruiKelasUjian(value)}
+                  pilihan={data_kelas.state.pilihan_kelas}
                 />
                 <MaterialSelect
                   label="Soal"
                   isMulti
                   value={data_ujian.state.formulirDataUjian.soal}
                   onChange={value => data_ujian.perbaruiSoalUjian(value)}
+                  pilihan={data_soal.state.pilihan_soal}
                 />
                 <div style={{ paddingBottom: 300 }} />
               </DialogContent>
@@ -276,7 +283,7 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_kelas.bersihkanFormulirUjian(e);
+                    data_ujian.bersihkanFormulirUjian(e);
                   }}
                   color="primary"
                 >
@@ -285,7 +292,7 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_kelas.masukkanFormulirUjian(e);
+                    data_ujian.masukkanFormulirUjian(e);
                   }}
                   color="primary"
                 >
@@ -414,7 +421,7 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_kelas.bersihkanFormulirSoal(e);
+                    data_soal.bersihkanFormulirSoal(e);
                   }}
                   color="primary"
                 >
@@ -423,7 +430,7 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_kelas.masukkanFormulirSoal(e);
+                    data_soal.masukkanFormulirSoal(e);
                   }}
                   color="primary"
                 >

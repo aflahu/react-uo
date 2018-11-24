@@ -6,6 +6,7 @@ import swal from "sweetalert";
 class ContainerDataKelas extends Container {
   state = {
     semua_kelas: [],
+    pilihan_kelas: [],
     formulirDataKelas: {
       nama: "",
       tanggal: "",
@@ -60,6 +61,15 @@ class ContainerDataKelas extends Container {
     await this.setState({
       formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
     });
+  }
+  async pilihanKelas() {
+    const result = await Axios.get(Data.url + "/kelas");
+    const pilihan = await result.data.map(isi => {
+      const value = isi.no;
+      const label = isi.no + " | " + isi.nama;
+      return { value, label };
+    });
+    this.setState({ pilihan_kelas: pilihan });
   }
   async masukkanFormulirKelas(e) {
     e.preventDefault();

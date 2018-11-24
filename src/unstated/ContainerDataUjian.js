@@ -6,10 +6,11 @@ import swal from "sweetalert";
 class ContainerDataUjian extends Container {
   state = {
     semua_ujian: [],
+    pilihan_ujian: [],
     formulirDataUjian: {
       judul: "",
       nama_mapel: "",
-      tanggal: undefined,
+      tanggal: "",
       waktu: "",
       guru: "",
       kelas: "",
@@ -73,7 +74,7 @@ class ContainerDataUjian extends Container {
       formulirDataUjian: {
         judul: "",
         nama_mapel: "",
-        tanggal: undefined,
+        tanggal: "",
         waktu: "",
         guru: "",
         kelas: "",
@@ -88,7 +89,7 @@ class ContainerDataUjian extends Container {
       formulirDataUjian: {
         judul: "",
         nama_mapel: "",
-        tanggal: undefined,
+        tanggal: "",
         waktu: "",
         guru: "",
         kelas: "",
