@@ -15,7 +15,13 @@ class ContainerDataSoal extends Container {
       pilihan_4: "",
       jawaban: "",
       nilai_soal: ""
-    }
+    },
+    pilihan_jawaban: [
+      { value: "pilihan_1", label: "Pilihan 1" },
+      { value: "pilihan_2", label: "Pilihan 2" },
+      { value: "pilihan_3", label: "Pilihan 3" },
+      { value: "pilihan_4", label: "Pilihan 4" }
+    ]
   };
 
   async ambilDataSemuaSoal() {
@@ -64,12 +70,15 @@ class ContainerDataSoal extends Container {
   }
   perbaruiJawabanSoal(jawaban) {
     this.setState(sebelumnya => ({
-      formulirDataSoal: { ...sebelumnya.formulirDataSoal, jawaban }
+      formulirDataSoal: {
+        ...sebelumnya.formulirDataSoal,
+        jawaban
+      }
     }));
   }
-  perbaruiNilaiSoal(nilai) {
+  perbaruiNilaiSoal(nilai_soal) {
     this.setState(sebelumnya => ({
-      formulirDataSoal: { ...sebelumnya.formulirDataSoal, nilai }
+      formulirDataSoal: { ...sebelumnya.formulirDataSoal, nilai_soal }
     }));
   }
   async bersihkanFormulirSoal(e) {
@@ -91,14 +100,17 @@ class ContainerDataSoal extends Container {
     const result = await Axios.get(Data.url + "/soal");
     const pilihan = await result.data.map(isi => {
       const value = isi.no;
-      const label = isi.no + " | " + isi.nama;
+      const label = isi.no + " | " + isi.tanda;
       return { value, label };
     });
     this.setState({ pilihan_soal: pilihan });
   }
   async masukkanFormulirSoal(e) {
     e.preventDefault();
-    console.log(await this.state.formulirDataSoal);
+    const data = this.state.formulirDataSoal;
+    data.jawaban = data.jawaban.value;
+    console.log(data);
+    await Axios.post(Data.url + "/soal", data);
     await this.setState({
       pilihan_soal: [],
       formulirDataSoal: {

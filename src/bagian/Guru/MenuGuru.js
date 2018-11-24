@@ -60,6 +60,13 @@ const hiasan = theme => ({
   }
 });
 
+// const pilihan_jawaban = [
+//   { value: "pilhan_1", label: "Pilihan 1" },
+//   { value: "pilhan_2", label: "Pilihan 2" },
+//   { value: "pilhan_3", label: "Pilihan 3" },
+//   { value: "pilhan_4", label: "Pilihan 4" }
+// ];
+
 class MenuGuru extends Component {
   state = {
     value: 0,
@@ -315,12 +322,13 @@ class MenuGuru extends Component {
               columns={[
                 { title: "No. Soal", field: "no", type: "numeric" },
                 { title: "Soal", field: "soal" },
+                { title: "Tanda", field: "tanda" },
                 { title: "Pilihan 1", field: "pilihan_1" },
                 { title: "Pilihan 2", field: "pilihan_2" },
                 { title: "Pilihan 3", field: "pilihan_3" },
                 { title: "Pilihan 4", field: "pilihan_4" },
                 { title: "Jawaban", field: "jawaban" },
-                { title: "Nilai Soal", field: "nilai" },
+                { title: "Nilai Soal", field: "nilai_soal" },
                 { title: "Ujian", field: "kelas_kelas_ujian" }
               ]}
               data={data_soal.state.semua_soal}
@@ -401,7 +409,8 @@ class MenuGuru extends Component {
                 <MaterialSelect
                   label="Jawaban"
                   value={data_soal.state.formulirDataSoal.jawaban}
-                  onChange={value => data_soal.perbaruiJawabanSoal(value)}
+                  onChange={v => data_soal.perbaruiJawabanSoal(v)}
+                  pilihan={data_soal.state.pilihan_jawaban}
                 />
                 <TextField
                   margin="dense"
@@ -409,9 +418,9 @@ class MenuGuru extends Component {
                   label="Nilai"
                   type="number"
                   fullWidth
-                  value={data_soal.state.formulirDataSoal.jawaban}
+                  value={data_soal.state.formulirDataSoal.nilai_soal}
                   onChange={event =>
-                    data_soal.perbaruiJawabanSoal(event.currentTarget.value)
+                    data_soal.perbaruiNilaiSoal(event.currentTarget.value)
                   }
                 />
 
