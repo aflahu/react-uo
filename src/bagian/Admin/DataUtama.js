@@ -84,6 +84,10 @@ class DataUtama extends Component {
     this.setState({ formulir: f });
   };
 
+  handleEdit = f => {
+    this.setState({ formulir: f });
+  };
+
   handleClose = () => {
     this.setState({ formulir: 0 });
   };
@@ -118,10 +122,22 @@ class DataUtama extends Component {
               columns={[
                 { title: "NIP", field: "no", type: "numeric" },
                 { title: "Nama", field: "nama" },
-                { title: "Menguji", field: "menguji" }
+                { title: "Menguji", field: "string_menguji" }
               ]}
               data={data.state.guru}
               title="Data Guru"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => this.handleEdit(1)
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 1}
@@ -200,10 +216,22 @@ class DataUtama extends Component {
               columns={[
                 { title: "NIS", field: "no", type: "numeric" },
                 { title: "Nama", field: "nama" },
-                { title: "Kelas", field: "kelas_murid" }
+                { title: "Kelas", field: "string_kelas_murid" }
               ]}
               data={data.state.murid}
               title="Data Murid"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => null
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 2}
@@ -289,6 +317,18 @@ class DataUtama extends Component {
               ]}
               data={data_kelas.state.semua_kelas}
               title="Data Kelas"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => null
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 3}

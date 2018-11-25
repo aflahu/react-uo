@@ -25,7 +25,6 @@ class ContainerDataKelas extends Container {
         }
       }
       await this.setState({ semua_kelas: data });
-      console.log(data);
     } catch (error) {
       if (error.response === undefined) {
         return swal(

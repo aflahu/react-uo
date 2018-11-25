@@ -15,6 +15,7 @@ class ContainerDataPengguna extends Container {
       tipe: "guru"
     },
     murid: [],
+    dataTabelMurid: [],
     pilihanMurid: [],
     formulirDataMurid: {
       no: "",
@@ -43,7 +44,13 @@ class ContainerDataPengguna extends Container {
   async ambilDataGuru() {
     try {
       const result = await Axios.get(Data.url + "/pengguna/tipe/guru");
-      await this.setState({ guru: result.data });
+      let guru = result.data;
+      if (guru.length > 0 && guru[0].menguji !== undefined) {
+        for (const u in guru) {
+          guru[u].string_menguji = guru[u].menguji.map(i => i.judul).toString();
+        }
+      }
+      await this.setState({ guru });
     } catch (error) {
       if (error.response === undefined) {
         return swal(
@@ -102,7 +109,15 @@ class ContainerDataPengguna extends Container {
   async ambilDataMurid() {
     try {
       const result = await Axios.get(Data.url + "/pengguna/tipe/murid");
-      await this.setState({ murid: result.data });
+      let murid = result.data;
+      if (murid.length > 0 && murid[0].kelas_murid !== undefined) {
+        for (const u in murid) {
+          murid[u].string_kelas_murid = murid[u].kelas_murid
+            .map(i => i.nama)
+            .toString();
+        }
+      }
+      await this.setState({ murid });
     } catch (error) {
       if (error.response === undefined) {
         return swal(

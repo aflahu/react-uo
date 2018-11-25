@@ -27,7 +27,16 @@ class ContainerDataSoal extends Container {
   async ambilDataSemuaSoal() {
     try {
       const result = await Axios.get(Data.url + "/soal");
-      await this.setState({ semua_soal: result.data });
+      let semua_soal = result.data;
+      if (semua_soal.length > 0 && semua_soal[0].no_ujian) {
+        for (const u in semua_soal) {
+          semua_soal[u].string_ujian = semua_soal[u].no_ujian
+            .map(i => i.judul)
+            .toString();
+        }
+      }
+      console.log(semua_soal);
+      await this.setState({ semua_soal });
     } catch (error) {
       if (error.response === undefined) {
         return swal(
@@ -109,7 +118,7 @@ class ContainerDataSoal extends Container {
     e.preventDefault();
     const data = this.state.formulirDataSoal;
     data.jawaban = data.jawaban.value;
-    console.log(data);
+    // console.log(data);
     await Axios.post(Data.url + "/soal", data);
     await this.setState({
       pilihan_soal: [],

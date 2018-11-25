@@ -12,7 +12,7 @@ class ContainerDataUjian extends Container {
       nama_mapel: "",
       tanggal: "",
       waktu: "",
-      guru: "",
+      guru: window.localStorage.getItem("no"),
       kelas: "",
       soal: []
     }
@@ -21,7 +21,23 @@ class ContainerDataUjian extends Container {
   async ambilDataSemuaUjian() {
     try {
       const result = await Axios.get(Data.url + "/ujian");
-      await this.setState({ semua_ujian: result.data });
+      let semua_ujian = result.data;
+      if (semua_ujian.length > 0 && semua_ujian[0].guru) {
+        for (const u in semua_ujian) {
+          semua_ujian[u].string_guru = semua_ujian[u].guru.nama;
+        }
+      }
+      if (semua_ujian.length > 0 && semua_ujian[0].kelas_kelas_ujian) {
+        for (const u in semua_ujian) {
+          semua_ujian[u].string_kelas_kelas_ujian = semua_ujian[
+            u
+          ].kelas_kelas_ujian
+            .map(i => i.nama)
+            .toString();
+        }
+      }
+      // console.log(semua_ujian);
+      await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
         return swal(
@@ -53,11 +69,11 @@ class ContainerDataUjian extends Container {
       formulirDataUjian: { ...sebelumnya.formulirDataUjian, waktu }
     }));
   }
-  perbaruiGuruUjian(guru) {
-    this.setState(sebelumnya => ({
-      formulirDataUjian: { ...sebelumnya.formulirDataUjian, guru }
-    }));
-  }
+  // perbaruiGuruUjian(guru) {
+  //   this.setState(sebelumnya => ({
+  //     formulirDataUjian: { ...sebelumnya.formulirDataUjian, guru }
+  //   }));
+  // }
   perbaruiKelasUjian(kelas) {
     this.setState(sebelumnya => ({
       formulirDataUjian: { ...sebelumnya.formulirDataUjian, kelas }
@@ -84,7 +100,13 @@ class ContainerDataUjian extends Container {
   }
   async masukkanFormulirUjian(e) {
     e.preventDefault();
-    console.log(await this.state.formulirDataUjian);
+    const data = {
+      ...this.state.formulirDataUjian,
+      kelas: this.state.formulirDataUjian.kelas.map(i => i.value),
+      soal: this.state.formulirDataUjian.soal.map(i => i.value)
+    };
+    console.log(data);
+    Axios.post(Data.url + "/ujian", data);
     await this.setState({
       formulirDataUjian: {
         judul: "",
@@ -96,6 +118,7 @@ class ContainerDataUjian extends Container {
         soal: []
       }
     });
+    await new Promise(res => setTimeout(res, 3000));
     await this.ambilDataSemuaUjian();
   }
 }

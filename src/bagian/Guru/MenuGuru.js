@@ -23,6 +23,7 @@ import MaterialSelect from "../../material/MaterialSelect";
 import { compose } from "recompose";
 import Containers from "unstated-connect";
 import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 
 const hiasan = theme => ({
   utama: {
@@ -122,10 +123,22 @@ class MenuGuru extends Component {
                 { title: "Nama", field: "nama" },
                 { title: "Tanggal", field: "tanggal" },
                 { title: "Murid-murid", field: "murid_murid" },
-                { title: "Ujian", field: "ujian" }
+                { title: "Ujian", field: "string_ujian" }
               ]}
               data={data_kelas.state.semua_kelas}
               title="Data Kelas"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => null
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 1}
@@ -206,11 +219,26 @@ class MenuGuru extends Component {
                 { title: "Mata Pelajaran", field: "nama_mapel" },
                 { title: "Tanggal", field: "tanggal" },
                 { title: "Lama Waktu", field: "waktu" },
-                { title: "Guru", field: "guru" },
-                { title: "Kelas kelas ujian", field: "kelas_kelas_ujian" }
+                { title: "Guru", field: "string_guru" },
+                {
+                  title: "Kelas kelas ujian",
+                  field: "string_kelas_kelas_ujian"
+                }
               ]}
               data={data_ujian.state.semua_ujian}
               title="Data Ujian"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => null
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 2}
@@ -264,12 +292,12 @@ class MenuGuru extends Component {
                     data_ujian.perbaruiWaktuUjian(event.currentTarget.value)
                   }
                 />
-                <MaterialSelect
+                {/* <MaterialSelect
                   label="Guru"
                   value={data_ujian.state.formulirDataUjian.guru}
                   onChange={value => data_ujian.perbaruiGuruUjian(value)}
                   pilihan={data.state.pilihan_guru}
-                />
+                />*/}
                 <MaterialSelect
                   label="Kelas"
                   isMulti
@@ -329,10 +357,22 @@ class MenuGuru extends Component {
                 { title: "Pilihan 4", field: "pilihan_4" },
                 { title: "Jawaban", field: "jawaban" },
                 { title: "Nilai Soal", field: "nilai_soal" },
-                { title: "Ujian", field: "kelas_kelas_ujian" }
+                { title: "Ujian", field: "string_ujian" }
               ]}
               data={data_soal.state.semua_soal}
               title="Data Soal"
+              actions={[
+                {
+                  icon: "edit",
+                  tooltip: "perbarui",
+                  onClick: () => null
+                },
+                {
+                  icon: "delete_outline",
+                  tooltip: "hapus",
+                  onClick: () => null
+                }
+              ]}
             />
             <Dialog
               open={this.state.formulir === 3}
