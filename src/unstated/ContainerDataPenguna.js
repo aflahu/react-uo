@@ -95,8 +95,7 @@ class ContainerDataPengguna extends Container {
     e.preventDefault();
     try {
       if (perbarui) {
-        // await Axios.post(Data.url + "/pengguna", this.state.formulirDataGuru);
-        alert("perbarui");
+        await Axios.put(Data.url + "/pengguna", this.state.formulirDataGuru);
         await this.setState({
           formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
         });
@@ -177,7 +176,7 @@ class ContainerDataPengguna extends Container {
     e.preventDefault();
     try {
       if (perbarui) {
-        await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
+        await Axios.put(Data.url + "/pengguna", this.state.formulirDataMurid);
         await this.setState({
           formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
         });

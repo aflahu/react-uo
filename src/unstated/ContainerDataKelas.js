@@ -8,6 +8,7 @@ class ContainerDataKelas extends Container {
     semua_kelas: [],
     pilihan_kelas: [],
     formulirDataKelas: {
+      no: "",
       nama: "",
       tanggal: "",
       murid_di_kelas: []
@@ -75,7 +76,7 @@ class ContainerDataKelas extends Container {
     });
     this.setState({ pilihan_kelas: pilihan });
   }
-  async masukkanFormulirKelas(e) {
+  async masukkanFormulirKelas(e, perbarui) {
     e.preventDefault();
     const data = {
       ...this.state.formulirDataKelas,
@@ -84,12 +85,22 @@ class ContainerDataKelas extends Container {
       )
     };
     try {
-      Axios.post(Data.url + "/kelas", data);
-      await this.setState({
-        formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
-      });
-      await new Promise(res => setTimeout(res, 3000));
-      await this.ambilDataSemuaKelas();
+      if (perbarui) {
+        Axios.post(Data.url + "/kelas", data);
+        await this.setState({
+          formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
+        });
+        await new Promise(res => setTimeout(res, 3000));
+        await this.ambilDataSemuaKelas();
+      }
+      if (!perbarui) {
+        Axios.post(Data.url + "/kelas", data);
+        await this.setState({
+          formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
+        });
+        await new Promise(res => setTimeout(res, 3000));
+        await this.ambilDataSemuaKelas();
+      }
     } catch (error) {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
