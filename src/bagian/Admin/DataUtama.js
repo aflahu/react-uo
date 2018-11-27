@@ -73,7 +73,8 @@ const hiasan = theme => ({
 class DataUtama extends Component {
   state = {
     value: 0,
-    formulir: 0
+    formulir: 0,
+    perbarui: false
   };
 
   async componentDidMount() {
@@ -89,8 +90,12 @@ class DataUtama extends Component {
     this.setState({ formulir: f });
   };
 
-  handleEdit = f => {
-    this.setState({ formulir: f });
+  handleEdit = (f, dataFormulir) => {
+    this.setState({ formulir: f, perbarui: true });
+    const [data, data_kelas] = this.props.containers;
+    if (f === 1) data.mengisiFromulirGuru(dataFormulir);
+    if (f === 2) data.mengisiFromulirMurid(dataFormulir);
+    if (f === 3) data_kelas.mengisiFromulirKelas(dataFormulir);
   };
 
   handleClose = () => {
@@ -103,7 +108,7 @@ class DataUtama extends Component {
 
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { value, perbarui } = this.state;
     const [data, data_kelas, data_ujian] = this.props.containers;
     return (
       <div className={classes.utama}>
@@ -136,7 +141,7 @@ class DataUtama extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: (e, data) => this.handleEdit(1)
+                  onClick: (e, data) => this.handleEdit(1, data)
                 },
                 {
                   icon: "delete_outline",
@@ -163,6 +168,7 @@ class DataUtama extends Component {
                   onChange={event =>
                     data.perbaruiNoGuru(event.currentTarget.value)
                   }
+                  disabled={perbarui}
                 />
                 <TextField
                   margin="dense"
@@ -184,6 +190,7 @@ class DataUtama extends Component {
                   onChange={event =>
                     data.perbaruiKunciGuru(event.currentTarget.value)
                   }
+                  disabled={perbarui}
                 />
               </DialogContent>
               <DialogActions>
@@ -191,15 +198,17 @@ class DataUtama extends Component {
                   onClick={e => {
                     this.handleClose();
                     data.bersihkanFormulirGuru(e);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
                   Batal
                 </Button>
                 <Button
-                  onClick={e => {
+                  onClick={async e => {
                     this.handleClose();
-                    data.masukkanFormulirGuru(e);
+                    await data.masukkanFormulirGuru(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
@@ -230,7 +239,7 @@ class DataUtama extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleEdit(2, data)
                 },
                 {
                   icon: "delete_outline",
@@ -255,17 +264,18 @@ class DataUtama extends Component {
                   label="NIS"
                   type="number"
                   fullWidth
-                  value={data.state.formulirDataGuru.No}
+                  value={data.state.formulirDataMurid.no}
                   onChange={event =>
                     data.perbaruiNoMurid(event.currentTarget.value)
                   }
+                  disabled={perbarui}
                 />
                 <TextField
                   margin="dense"
                   id="nama"
                   label="Nama"
                   fullWidth
-                  value={data.state.formulirDataGuru.Nama}
+                  value={data.state.formulirDataMurid.nama}
                   onChange={event =>
                     data.perbaruiNamaMurid(event.currentTarget.value)
                   }
@@ -276,10 +286,11 @@ class DataUtama extends Component {
                   label="Kunci"
                   type="password"
                   fullWidth
-                  value={data.state.formulirDataGuru.Kunci}
+                  value={data.state.formulirDataMurid.kunci}
                   onChange={event =>
                     data.perbaruiKunciMurid(event.currentTarget.value)
                   }
+                  disabled={perbarui}
                 />
               </DialogContent>
               <DialogActions>
@@ -287,15 +298,17 @@ class DataUtama extends Component {
                   onClick={e => {
                     this.handleClose();
                     data.bersihkanFormulirMurid(e);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
                   Batal
                 </Button>
                 <Button
-                  onClick={e => {
+                  onClick={async e => {
                     this.handleClose();
-                    data.masukkanFormulirMurid(e);
+                    await data.masukkanFormulirMurid(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
@@ -327,7 +340,7 @@ class DataUtama extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleEdit(3, data)
                 },
                 {
                   icon: "delete_outline",
@@ -398,15 +411,17 @@ class DataUtama extends Component {
                   onClick={e => {
                     this.handleClose();
                     data_kelas.bersihkanFormulirKelas(e);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
                   Batal
                 </Button>
                 <Button
-                  onClick={e => {
+                  onClick={async e => {
                     this.handleClose();
-                    data_kelas.masukkanFormulirKelas(e);
+                    data_kelas.masukkanFormulirKelas(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >

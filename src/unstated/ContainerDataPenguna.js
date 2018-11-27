@@ -91,18 +91,32 @@ class ContainerDataPengguna extends Container {
     });
     this.setState({ pilihan_guru: pilihan });
   }
-  async masukkanFormulirGuru(e) {
+  async masukkanFormulirGuru(e, perbarui) {
     e.preventDefault();
     try {
-      await Axios.post(Data.url + "/pengguna", this.state.formulirDataGuru);
-      await this.setState({
-        formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
-      });
-      await this.ambilDataGuru();
-      await this.pilihanGuru();
+      if (perbarui) {
+        // await Axios.post(Data.url + "/pengguna", this.state.formulirDataGuru);
+        alert("perbarui");
+        await this.setState({
+          formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
+        });
+        await this.ambilDataGuru();
+        await this.pilihanGuru();
+      }
+      if (!perbarui) {
+        await Axios.post(Data.url + "/pengguna", this.state.formulirDataGuru);
+        await this.setState({
+          formulirDataGuru: { no: "", nama: "", kunci: "", tipe: "guru" }
+        });
+        await this.ambilDataGuru();
+        await this.pilihanGuru();
+      }
     } catch (error) {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
+  }
+  async mengisiFromulirGuru(formulirDataGuru) {
+    this.setState({ formulirDataGuru });
   }
 
   // untuk data Murid
@@ -159,18 +173,31 @@ class ContainerDataPengguna extends Container {
     });
     await this.ambilDataMurid();
   }
-  async masukkanFormulirMurid(e) {
+  async masukkanFormulirMurid(e, perbarui) {
     e.preventDefault();
     try {
-      await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
-      await this.setState({
-        formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
-      });
-      await this.ambilDataMurid();
-      await this.pilihanMurid();
+      if (perbarui) {
+        await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
+        await this.setState({
+          formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
+        });
+        await this.ambilDataMurid();
+        await this.pilihanMurid();
+      }
+      if (!perbarui) {
+        await Axios.post(Data.url + "/pengguna", this.state.formulirDataMurid);
+        await this.setState({
+          formulirDataMurid: { no: "", nama: "", kunci: "", tipe: "murid" }
+        });
+        await this.ambilDataMurid();
+        await this.pilihanMurid();
+      }
     } catch (error) {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
+  }
+  mengisiFromulirMurid(formulirDataMurid) {
+    this.setState({ formulirDataMurid });
   }
 }
 export default ContainerDataPengguna;

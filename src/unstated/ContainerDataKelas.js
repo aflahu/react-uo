@@ -94,5 +94,14 @@ class ContainerDataKelas extends Container {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
   }
+  mengisiFromulirKelas(formulirDataKelas) {
+    const murid_di_kelas = formulirDataKelas.murid_di_kelas.map(i => {
+      return { label: i.no + " | " + i.nama, value: i.no };
+    });
+    this.setState({
+      formulirDataKelas: { ...formulirDataKelas, murid_di_kelas }
+    });
+    console.log(formulirDataKelas);
+  }
 }
 export default ContainerDataKelas;
