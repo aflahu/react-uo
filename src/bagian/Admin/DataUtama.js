@@ -28,6 +28,7 @@ import AddIcon from "@material-ui/icons/Add";
 import MaterialSelect from "../../material/MaterialSelect";
 import { compose } from "recompose";
 import Containers from "unstated-connect";
+import moment from "moment-hijri";
 
 const hiasan = theme => ({
   utama: {
@@ -62,6 +63,10 @@ const hiasan = theme => ({
   tambah: {
     marginTop: theme.spacing.unit * 2,
     float: "right"
+  },
+  tanggal: {
+    display: "flex",
+    flex: "1 1"
   }
 });
 
@@ -95,6 +100,7 @@ class DataUtama extends Component {
   handleChange = (event, value) => {
     this.setState({ value });
   };
+
   render() {
     const { classes } = this.props;
     const { value } = this.state;
@@ -130,7 +136,7 @@ class DataUtama extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => this.handleEdit(1)
+                  onClick: (e, data) => this.handleEdit(1)
                 },
                 {
                   icon: "delete_outline",
@@ -351,16 +357,33 @@ class DataUtama extends Component {
                     data_kelas.perbaruiNamaKelas(event.currentTarget.value)
                   }
                 />
-                <TextField
-                  margin="dense"
-                  id="tanggal"
-                  label="Tanggal"
-                  fullWidth
-                  value={data_kelas.state.formulirDataKelas.tanggal}
-                  onChange={event =>
-                    data_kelas.perbaruiTanggalKelas(event.currentTarget.value)
-                  }
-                />
+                <div className={classes.tanggal}>
+                  <TextField
+                    margin="dense"
+                    id="tanggal"
+                    label="Tanggal"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    value={data_kelas.state.formulirDataKelas.tanggal}
+                    onChange={event =>
+                      data_kelas.perbaruiTanggalKelas(event.currentTarget.value)
+                    }
+                  />
+                  <TextField
+                    margin="dense"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    label="Tanggal Hijryah"
+                    value={moment(
+                      data_kelas.state.formulirDataKelas.tanggal
+                    ).format("iYYYY/iM/iD")}
+                    fullWidth
+                    disabled
+                  />
+                </div>
                 <MaterialSelect
                   label="Murid"
                   isMulti
@@ -402,8 +425,8 @@ class DataUtama extends Component {
                 { title: "Mata Pelajaran", field: "nama_mapel" },
                 { title: "Tanggal", field: "tanggal" },
                 { title: "Lama Waktu", field: "waktu" },
-                { title: "Guru", field: "guru" },
-                { title: "Ujian", field: "ujian" }
+                { title: "Guru", field: "string_guru" },
+                { title: "Ujian", field: "string_kelas_kelas_ujian" }
               ]}
               data={data_ujian.state.semua_ujian}
               title="Data Ujian"

@@ -17,11 +17,16 @@ class ContainerDataKelas extends Container {
     try {
       const result = await Axios.get(Data.url + "/kelas");
       const data = result.data;
-      if (data.length > 0 && data[0].murid_di_kelas !== undefined) {
+      if (data.length > 0 && data[0].murid_di_kelas) {
         for (const u in data) {
           data[u].murid_murid = data[u].murid_di_kelas
             .map(i => i.nama)
             .toString();
+        }
+      }
+      if (data.length > 0 && data[0].ujian) {
+        for (const u in data) {
+          data[u].string_ujian = data[u].ujian.map(i => i.judul).toString();
         }
       }
       await this.setState({ semua_kelas: data });
