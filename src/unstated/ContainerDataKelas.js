@@ -114,5 +114,34 @@ class ContainerDataKelas extends Container {
     });
     console.log(formulirDataKelas);
   }
+  async menghapusDataKelas(formulirDataKelas) {
+    const no = formulirDataKelas.no;
+    console.log(no);
+    try {
+      swal({
+        title: "Benar anda mau menghapus data?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async willDelete => {
+        if (willDelete) {
+          await Axios.delete(Data.url + "/kelas/" + no);
+          await this.ambilDataSemuaKelas();
+          swal("Data berhasil dihapus", {
+            icon: "success"
+          });
+        } else {
+          swal("Penghapusan data dibatalkan");
+        }
+      });
+    } catch (error) {
+      return swal(
+        "Maaf ada kendala di pelayanan server",
+        "Silahkan hubungi admin, semoga Allah memudahkan",
+        "error"
+      );
+    }
+  }
 }
 export default ContainerDataKelas;

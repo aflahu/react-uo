@@ -55,7 +55,7 @@ class ContainerDataPengguna extends Container {
       if (error.response === undefined) {
         return swal(
           "Maaf ada kendala di pelayanan server",
-          "Silahkan hubungi admin, insyaAllah akan ditangani",
+          "Silahkan hubungi admin, semoga Allah memudahkan",
           "error"
         );
       }
@@ -116,6 +116,36 @@ class ContainerDataPengguna extends Container {
   }
   async mengisiFromulirGuru(formulirDataGuru) {
     this.setState({ formulirDataGuru });
+  }
+
+  async menghapusDataPengguna(formulirDataPenguna) {
+    const no = formulirDataPenguna.no;
+    try {
+      swal({
+        title: "Benar anda mau menghapus data?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async willDelete => {
+        if (willDelete) {
+          await Axios.delete(Data.url + "/pengguna/" + no);
+          await this.ambilDataGuru();
+          await this.ambilDataMurid();
+          swal("Data berhasil dihapus", {
+            icon: "success"
+          });
+        } else {
+          swal("Penghapusan data dibatalkan");
+        }
+      });
+    } catch (error) {
+      return swal(
+        "Maaf ada kendala di pelayanan server",
+        "Silahkan hubungi admin, semoga Allah memudahkan",
+        "error"
+      );
+    }
   }
 
   // untuk data Murid

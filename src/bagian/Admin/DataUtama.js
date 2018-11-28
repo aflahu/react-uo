@@ -97,6 +97,12 @@ class DataUtama extends Component {
     if (f === 2) data.mengisiFromulirMurid(dataFormulir);
     if (f === 3) data_kelas.mengisiFromulirKelas(dataFormulir);
   };
+  handleDeleteData = (f, dataFormulir) => {
+    const [data, data_kelas] = this.props.containers;
+    if (f === 1) data.menghapusDataPengguna(dataFormulir);
+    if (f === 2) data.menghapusDataPengguna(dataFormulir);
+    if (f === 3) data_kelas.menghapusDataKelas(dataFormulir);
+  };
 
   handleClose = () => {
     this.setState({ formulir: 0 });
@@ -146,7 +152,7 @@ class DataUtama extends Component {
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(1, data)
                 }
               ]}
             />
@@ -244,7 +250,7 @@ class DataUtama extends Component {
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(2, data)
                 }
               ]}
             />
@@ -345,7 +351,7 @@ class DataUtama extends Component {
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(3, data)
                 }
               ]}
             />
