@@ -86,6 +86,7 @@ class ContainerDataKelas extends Container {
     };
     try {
       if (perbarui) {
+        delete data.tableData;
         Axios.post(Data.url + "/kelas", data);
         await this.setState({
           formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
@@ -112,7 +113,6 @@ class ContainerDataKelas extends Container {
     this.setState({
       formulirDataKelas: { ...formulirDataKelas, murid_di_kelas }
     });
-    console.log(formulirDataKelas);
   }
   async menghapusDataKelas(formulirDataKelas) {
     const no = formulirDataKelas.no;

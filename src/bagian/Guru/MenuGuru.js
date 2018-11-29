@@ -71,7 +71,8 @@ const hiasan = theme => ({
 class MenuGuru extends Component {
   state = {
     value: 0,
-    formulir: 0
+    formulir: 0,
+    perbarui: false
   };
   async componentDidMount() {
     const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
@@ -94,6 +95,23 @@ class MenuGuru extends Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+  handleEdit = (f, dataFormulir) => {
+    this.setState({ formulir: f, perbarui: true });
+    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
+    if (f === 1) data_kelas.mengisiFromulirKelas(dataFormulir);
+    if (f === 2) data_ujian.mengisiFromulirUjian(dataFormulir);
+    if (f === 3) data_soal.mengisiFromulirSoal(dataFormulir);
+    data.pilihanMurid();
+    data.pilihanGuru();
+    data_kelas.pilihanKelas();
+    data_soal.pilihanSoal();
+  };
+  handleDeleteData = (f, dataFormulir) => {
+    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
+    if (f === 1) data_kelas.menghapusDataKelas(dataFormulir);
+    if (f === 2) data_ujian.menghapusDataUjian(dataFormulir);
+    if (f === 3) data_soal.menghapusDataSoal(dataFormulir);
   };
   render() {
     const { classes } = this.props;
@@ -131,12 +149,12 @@ class MenuGuru extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleEdit(1, data)
                 },
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(1, data)
                 }
               ]}
             />
@@ -193,7 +211,8 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_kelas.masukkanFormulirKelas(e);
+                    data_kelas.masukkanFormulirKelas(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
@@ -231,12 +250,12 @@ class MenuGuru extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleEdit(2, data)
                 },
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(2, data)
                 }
               ]}
             />
@@ -301,14 +320,14 @@ class MenuGuru extends Component {
                 <MaterialSelect
                   label="Kelas"
                   isMulti
-                  value={data_ujian.state.formulirDataUjian.kelas}
+                  value={data_ujian.state.formulirDataUjian.kelas_kelas_ujian}
                   onChange={value => data_ujian.perbaruiKelasUjian(value)}
                   pilihan={data_kelas.state.pilihan_kelas}
                 />
                 <MaterialSelect
                   label="Soal"
                   isMulti
-                  value={data_ujian.state.formulirDataUjian.soal}
+                  value={data_ujian.state.formulirDataUjian.soal_ujian}
                   onChange={value => data_ujian.perbaruiSoalUjian(value)}
                   pilihan={data_soal.state.pilihan_soal}
                 />
@@ -327,7 +346,8 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_ujian.masukkanFormulirUjian(e);
+                    data_ujian.masukkanFormulirUjian(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >
@@ -365,12 +385,12 @@ class MenuGuru extends Component {
                 {
                   icon: "edit",
                   tooltip: "perbarui",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleEdit(3, data)
                 },
                 {
                   icon: "delete_outline",
                   tooltip: "hapus",
-                  onClick: () => null
+                  onClick: (e, data) => this.handleDeleteData(3, data)
                 }
               ]}
             />
@@ -479,7 +499,8 @@ class MenuGuru extends Component {
                 <Button
                   onClick={e => {
                     this.handleClose();
-                    data_soal.masukkanFormulirSoal(e);
+                    data_soal.masukkanFormulirSoal(e, this.state.perbarui);
+                    this.setState({ perbarui: false });
                   }}
                   color="primary"
                 >

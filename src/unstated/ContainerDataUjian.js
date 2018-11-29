@@ -13,13 +13,14 @@ class ContainerDataUjian extends Container {
       tanggal: "",
       waktu: "",
       guru: window.localStorage.getItem("no"),
-      kelas: "",
-      soal: []
+      kelas_kelas_ujian: "",
+      soal_ujian: []
     }
   };
 
   async ambilDataSemuaUjian() {
     try {
+      // berdasarkan no guru
       const result = await Axios.get(Data.url + "/ujian");
       let semua_ujian = result.data;
       if (semua_ujian.length > 0 && semua_ujian[0].guru) {
@@ -36,7 +37,7 @@ class ContainerDataUjian extends Container {
             .toString();
         }
       }
-      // console.log(semua_ujian);
+      // // console.log(semua_ujian);
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
@@ -74,14 +75,14 @@ class ContainerDataUjian extends Container {
   //     formulirDataUjian: { ...sebelumnya.formulirDataUjian, guru }
   //   }));
   // }
-  perbaruiKelasUjian(kelas) {
+  perbaruiKelasUjian(kelas_kelas_ujian) {
     this.setState(sebelumnya => ({
-      formulirDataUjian: { ...sebelumnya.formulirDataUjian, kelas }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, kelas_kelas_ujian }
     }));
   }
-  perbaruiSoalUjian(soal) {
+  perbaruiSoalUjian(soal_ujian) {
     this.setState(sebelumnya => ({
-      formulirDataUjian: { ...sebelumnya.formulirDataUjian, soal }
+      formulirDataUjian: { ...sebelumnya.formulirDataUjian, soal_ujian }
     }));
   }
   async bersihkanFormulirUjian(e) {
@@ -93,33 +94,94 @@ class ContainerDataUjian extends Container {
         tanggal: "",
         waktu: "",
         guru: "",
-        kelas: "",
-        soal: []
+        kelas_kelas_ujian: "",
+        soal_ujian: []
       }
     });
   }
-  async masukkanFormulirUjian(e) {
+  async masukkanFormulirUjian(e, perbarui) {
     e.preventDefault();
     const data = {
       ...this.state.formulirDataUjian,
-      kelas: this.state.formulirDataUjian.kelas.map(i => i.value),
-      soal: this.state.formulirDataUjian.soal.map(i => i.value)
+      kelas: this.state.formulirDataUjian.kelas_kelas_ujian.map(i => i.value),
+      soal: this.state.formulirDataUjian.soal_ujian.map(i => i.value)
     };
-    console.log(data);
-    Axios.post(Data.url + "/ujian", data);
-    await this.setState({
-      formulirDataUjian: {
-        judul: "",
-        nama_mapel: "",
-        tanggal: "",
-        waktu: "",
-        guru: "",
-        kelas: "",
-        soal: []
+    try {
+      if (perbarui) {
+        Axios.post(Data.url + "/ujian", data);
+        await this.setState({
+          formulirDataUjian: {
+            judul: "",
+            nama_mapel: "",
+            tanggal: "",
+            waktu: "",
+            guru: window.localStorage.getItem("no"),
+            kelas_kelas_ujian: "",
+            soal_ujian: []
+          }
+        });
+        await new Promise(res => setTimeout(res, 3000));
+        await this.ambilDataSemuaUjian();
       }
+      if (!perbarui) {
+        Axios.post(Data.url + "/ujian", data);
+        console.log(data);
+        await this.setState({
+          formulirDataUjian: {
+            judul: "",
+            nama_mapel: "",
+            tanggal: "",
+            waktu: "",
+            guru: window.localStorage.getItem("no"),
+            kelas_kelas_ujian: "",
+            soal_ujian: []
+          }
+        });
+        await new Promise(res => setTimeout(res, 3000));
+        await this.ambilDataSemuaUjian();
+      }
+    } catch (error) {}
+  }
+  async mengisiFromulirUjian(formulirDataUjian) {
+    const kelas_kelas_ujian = formulirDataUjian.kelas_kelas_ujian.map(i => {
+      return { label: i.no + " | " + i.nama, value: i.no };
     });
-    await new Promise(res => setTimeout(res, 3000));
-    await this.ambilDataSemuaUjian();
+    const soal_ujian = formulirDataUjian.soal_ujian.map(i => {
+      return { label: i.no + " | " + i.tanda, value: i.no };
+    });
+    await this.setState({
+      formulirDataUjian: { ...formulirDataUjian, kelas_kelas_ujian, soal_ujian }
+    });
+    console.log(this.state.formulirDataUjian);
+  }
+
+  async menghapusDataUjian(formulirDataUjian) {
+    const no = formulirDataUjian.no;
+    try {
+      swal({
+        title: "Benar anda mau menghapus data?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async willDelete => {
+        if (willDelete) {
+          await Axios.delete(Data.url + "/ujian/" + no);
+          await this.ambilDataSemuaUjian();
+          swal("Data berhasil dihapus", {
+            icon: "success"
+          });
+        } else {
+          swal("Penghapusan data dibatalkan");
+        }
+      });
+    } catch (error) {
+      return swal(
+        "Maaf ada kendala di pelayanan server",
+        "Silahkan hubungi admin, semoga Allah memudahkan",
+        "error"
+      );
+    }
   }
 }
 export default ContainerDataUjian;

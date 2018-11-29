@@ -114,26 +114,87 @@ class ContainerDataSoal extends Container {
     });
     this.setState({ pilihan_soal: pilihan });
   }
-  async masukkanFormulirSoal(e) {
+  async masukkanFormulirSoal(e, perbarui) {
     e.preventDefault();
     const data = this.state.formulirDataSoal;
     data.jawaban = data.jawaban.value;
     // console.log(data);
-    await Axios.post(Data.url + "/soal", data);
-    await this.setState({
-      pilihan_soal: [],
-      formulirDataSoal: {
-        soal: "",
-        tanda: "",
-        pilihan_1: "",
-        pilihan_2: "",
-        pilihan_3: "",
-        pilihan_4: "",
-        jawaban: "",
-        nilai_soal: ""
+    try {
+      if (perbarui) {
+        await Axios.put(Data.url + "/soal", data);
+        await this.setState({
+          pilihan_soal: [],
+          formulirDataSoal: {
+            soal: "",
+            tanda: "",
+            pilihan_1: "",
+            pilihan_2: "",
+            pilihan_3: "",
+            pilihan_4: "",
+            jawaban: "",
+            nilai_soal: ""
+          }
+        });
+        await this.ambilDataSemuaSoal();
+      }
+      if (!perbarui) {
+        await Axios.post(Data.url + "/soal", data);
+        await this.setState({
+          pilihan_soal: [],
+          formulirDataSoal: {
+            soal: "",
+            tanda: "",
+            pilihan_1: "",
+            pilihan_2: "",
+            pilihan_3: "",
+            pilihan_4: "",
+            jawaban: "",
+            nilai_soal: ""
+          }
+        });
+        await this.ambilDataSemuaSoal();
+      }
+    } catch (error) {}
+  }
+  mengisiFromulirSoal(formulirDataSoal) {
+    const jawaban = this.state.pilihan_jawaban.map(i => {
+      if (i.value === formulirDataSoal.jawaban) {
+        return i;
       }
     });
-    await this.ambilDataSemuaSoal();
+
+    this.setState({
+      formulirDataSoal: { ...formulirDataSoal, jawaban }
+    });
+  }
+  async menghapusDataSoal(formulirDataSoal) {
+    const no = formulirDataSoal.no;
+    console.log(no);
+    try {
+      swal({
+        title: "Benar anda mau menghapus data?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async willDelete => {
+        if (willDelete) {
+          await Axios.delete(Data.url + "/soal/" + no);
+          await this.ambilDataSemuaSoal();
+          swal("Data berhasil dihapus", {
+            icon: "success"
+          });
+        } else {
+          swal("Penghapusan data dibatalkan");
+        }
+      });
+    } catch (error) {
+      return swal(
+        "Maaf ada kendala di pelayanan server",
+        "Silahkan hubungi admin, semoga Allah memudahkan",
+        "error"
+      );
+    }
   }
 }
 export default ContainerDataSoal;
