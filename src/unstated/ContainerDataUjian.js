@@ -18,10 +18,12 @@ class ContainerDataUjian extends Container {
     }
   };
 
-  async ambilDataSemuaUjian() {
+  async ambilDataSemuaUjian(no_pengguna) {
     try {
       // berdasarkan no guru
-      const result = await Axios.get(Data.url + "/ujian");
+      const result = await Axios.get(
+        Data.url + "/ujian/" + (no_pengguna || "")
+      );
       let semua_ujian = result.data;
       if (semua_ujian.length > 0 && semua_ujian[0].guru) {
         for (const u in semua_ujian) {
