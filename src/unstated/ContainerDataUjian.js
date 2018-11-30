@@ -43,6 +43,7 @@ class ContainerDataUjian extends Container {
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
+        console.log(error);
         return swal(
           "Maaf ada kendala di pelayanan server",
           "Silahkan hubungi admin, insyaAllah akan ditangani",
@@ -95,7 +96,6 @@ class ContainerDataUjian extends Container {
         nama_mapel: "",
         tanggal: "",
         waktu: "",
-        guru: "",
         kelas_kelas_ujian: "",
         soal_ujian: []
       }
@@ -117,7 +117,6 @@ class ContainerDataUjian extends Container {
             nama_mapel: "",
             tanggal: "",
             waktu: "",
-            guru: window.localStorage.getItem("no"),
             kelas_kelas_ujian: "",
             soal_ujian: []
           }
@@ -134,7 +133,6 @@ class ContainerDataUjian extends Container {
             nama_mapel: "",
             tanggal: "",
             waktu: "",
-            guru: window.localStorage.getItem("no"),
             kelas_kelas_ujian: "",
             soal_ujian: []
           }

@@ -15,6 +15,7 @@ import { compose } from "recompose";
 import Containers from "unstated-connect";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
+import { history } from "../../material/BrowserRouter";
 
 const hiasan = theme => ({
   utama: {
@@ -55,6 +56,11 @@ class Ujian extends Component {
     const [data, data_ujian] = this.props.containers;
     await data_ujian.ambilDataSemuaUjian();
   }
+  keluarApp = () => {
+    window.localStorage.clear();
+    return history.replace("/");
+  };
+
   render() {
     const { classes } = this.props;
     const [data, data_ujian] = this.props.containers;
@@ -64,7 +70,7 @@ class Ujian extends Component {
         <AppBar position="static" className={classes.palang}>
           <Toolbar>
             <Tooltip title="Keluar">
-              <IconButton color="inherit">
+              <IconButton color="inherit" onClick={this.keluarApp}>
                 <Keluar />
               </IconButton>
             </Tooltip>
