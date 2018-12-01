@@ -43,7 +43,37 @@ class ContainerDataUjian extends Container {
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
-        console.log(error);
+        return swal(
+          "Maaf ada kendala di pelayanan server",
+          "Silahkan hubungi admin, insyaAllah akan ditangani",
+          "error"
+        );
+      }
+    }
+  }
+
+  async ambilUjianMurid(no_pengguna) {
+    try {
+      const result = await Axios.get(Data.url + "/ujian/murid/" + no_pengguna);
+      let semua_ujian = result.data;
+      if (semua_ujian.length > 0 && semua_ujian[0].guru) {
+        for (const u in semua_ujian) {
+          semua_ujian[u].string_guru = semua_ujian[u].guru.nama;
+        }
+      }
+      if (semua_ujian.length > 0 && semua_ujian[0].kelas_kelas_ujian) {
+        for (const u in semua_ujian) {
+          semua_ujian[u].string_kelas_kelas_ujian = semua_ujian[
+            u
+          ].kelas_kelas_ujian
+            .map(i => i.nama)
+            .toString();
+        }
+      }
+      // // console.log(semua_ujian);
+      await this.setState({ semua_ujian });
+    } catch (error) {
+      if (error.response === undefined) {
         return swal(
           "Maaf ada kendala di pelayanan server",
           "Silahkan hubungi admin, insyaAllah akan ditangani",

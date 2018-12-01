@@ -53,8 +53,10 @@ const hiasan = theme => ({
 
 class Ujian extends Component {
   async componentDidMount() {
+    const ujian = window.localStorage.getItem("ujian");
+    if (ujian) return history.replace("/soal");
     const [data, data_ujian] = this.props.containers;
-    await data_ujian.ambilDataSemuaUjian();
+    await data_ujian.ambilUjianMurid(window.localStorage.getItem("no"));
   }
   keluarApp = () => {
     window.localStorage.clear();
@@ -88,16 +90,28 @@ class Ujian extends Component {
           {data_ujian.state.semua_ujian.map(d => (
             <Paper key={d} className={classes.media}>
               <Typography align="center" variant="title" gutterBottom>
-                Nama Mapel
+                {d.nama_mapel}
               </Typography>
               <Divider />
-              <Typography variant="subheading">Nama Guru: Fulan</Typography>
               <Typography variant="subheading">
-                Waktu Ujian: 20 Menit
+                Nama Guru: {d.guru.nama}
               </Typography>
-              <Typography variant="subheading">jumlah soal : 20</Typography>
+              <Typography variant="subheading">
+                Waktu Ujian: {d.waktu} Menit
+              </Typography>
+              <Typography variant="subheading">
+                jumlah soal : {d.soal_ujian.length}
+              </Typography>
 
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  window.localStorage.setItem("ujian", d.no);
+                  window.localStorage.setItem("mulai", new Date().getTime());
+                  history.replace("/soal");
+                }}
+              >
                 Mulai Ujian
               </Button>
             </Paper>

@@ -42,6 +42,11 @@ class Soal extends Component {
     value: "female",
     no_soal: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
   };
+  componentDidMount() {
+    const ujian = window.localStorage.getItem("ujian");
+    if (ujian) alert("selanjutnya");
+  }
+
   handleChange = event => {
     this.setState({ value: event.target.value });
   };
