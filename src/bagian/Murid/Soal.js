@@ -68,9 +68,13 @@ class Soal extends Component {
     const no_ujian = window.localStorage.getItem("no_ujian");
     if (!no_ujian) history.replace("/ujian");
     const mulai = window.localStorage.getItem("mulai");
-    const waktu = window.localStorage.getItem("waktu");
+    const waktu = window.localStorage.getItem("waktu_ujian");
     const soal = window.localStorage.getItem("soal_ujian");
-    console.log(soal);
+    const habisDi =
+      mulai + new Date(new Date(mulai).getMinutes() + waktu).getTime();
+    const tinggal = habisDi - waktu;
+    const sisa = new Date(tinggal).getMinutes();
+    console.log(new Date(mulai));
     // if() {
     //   this.kumpulkan()
     // }

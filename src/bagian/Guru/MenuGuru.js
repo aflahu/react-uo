@@ -461,6 +461,7 @@ class MenuGuru extends Component {
                       { title: "Siswa Waktu", field: "sisa_waktu" },
                       { title: "Nilai", field: "nilai" }
                     ]}
+                    options={{ exportButton: true }}
                     data={data_nilai.state.nilai_dari_ujian}
                     title="Nilai Murid"
                     actions={[
