@@ -81,7 +81,8 @@ class MenuGuru extends Component {
   state = {
     value: 0,
     formulir: 0,
-    perbarui: false
+    perbarui: false,
+    formulir_nilai: false
   };
   async componentDidMount() {
     const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
@@ -104,6 +105,10 @@ class MenuGuru extends Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+  handleNilai = (formulir_nilai, data) => {
+    this.setState({ formulir_nilai });
+    console.log(data.nilai_terkumpul);
   };
   handleEdit = (f, dataFormulir) => {
     this.setState({ formulir: f, perbarui: true });
@@ -295,6 +300,11 @@ class MenuGuru extends Component {
                 title="Data Ujian"
                 actions={[
                   {
+                    icon: "report",
+                    tooltip: "nilai",
+                    onClick: (e, data) => this.handleNilai(true, data)
+                  },
+                  {
                     icon: "edit",
                     tooltip: "perbarui",
                     onClick: (e, data) => this.handleEdit(2, data)
@@ -419,6 +429,38 @@ class MenuGuru extends Component {
                     color="primary"
                   >
                     Masukkan
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={this.state.formulir_nilai}
+                onClose={() => this.handleNilai(true)}
+              >
+                <DialogContent>
+                  <MaterialTable
+                    columns={[
+                      { title: "NIM", field: "no", type: "numeric" },
+                      { title: "Nama", field: "soal" },
+                      { title: "Siswa Waktu", field: "tanda" },
+                      { title: "Nila", field: "tanda" }
+                    ]}
+                    data={data_soal.state.semua_soal}
+                    title="Nilai Murid"
+                    actions={[
+                      {
+                        icon: "delete_outline",
+                        tooltip: "hapus",
+                        onClick: (e, data) => this.handleDeleteData(2, data)
+                      }
+                    ]}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => this.handleNilai(false)}
+                    color="primary"
+                  >
+                    Tutup
                   </Button>
                 </DialogActions>
               </Dialog>
