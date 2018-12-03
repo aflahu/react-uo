@@ -28,6 +28,7 @@ import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 import Keluar from "@material-ui/icons/ExitToApp";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { history } from "../../material/BrowserRouter";
+import moment from "moment-hijri";
 
 const hiasan = theme => ({
   utama: {
@@ -69,6 +70,10 @@ const hiasan = theme => ({
   tambah: {
     marginTop: theme.spacing.unit * 2,
     float: "right"
+  },
+  tanggal: {
+    display: "flex",
+    flex: "1 1"
   }
 });
 
@@ -134,7 +139,9 @@ class MenuGuru extends Component {
               <Keluar />
             </IconButton>
             <Typography variant="h6" color="inherit">
-              Assalamu'alaikum warahmatullahi wabarakatuh
+              {window.localStorage.getItem("nama") +
+                " | " +
+                window.localStorage.getItem("tipe")}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -199,16 +206,36 @@ class MenuGuru extends Component {
                       data_kelas.perbaruiNamaKelas(event.currentTarget.value)
                     }
                   />
-                  <TextField
-                    margin="dense"
-                    id="tanggal"
-                    label="Tanggal"
-                    fullWidth
-                    value={data_kelas.state.formulirDataKelas.tanggal}
-                    onChange={event =>
-                      data_kelas.perbaruiTanggalKelas(event.currentTarget.value)
-                    }
-                  />
+                  <div className={classes.tanggal}>
+                    <TextField
+                      margin="dense"
+                      id="tanggal"
+                      label="Tanggal"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      value={moment(
+                        data_kelas.state.formulirDataKelas.tanggal,
+                        "iM/iD/iYYYY"
+                      ).format("YYYY-MM-DD")}
+                      onChange={event =>
+                        data_kelas.perbaruiTanggalKelas(
+                          event.currentTarget.value
+                        )
+                      }
+                    />
+                    <TextField
+                      margin="dense"
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      label="Tanggal Hijryah"
+                      value={data_kelas.state.formulirDataKelas.tanggal}
+                      fullWidth
+                      disabled
+                    />
+                  </div>
                   <MaterialSelect
                     label="Murid"
                     isMulti
@@ -310,16 +337,36 @@ class MenuGuru extends Component {
                       data_ujian.perbaruiMapelUjian(event.currentTarget.value)
                     }
                   />
-                  <TextField
-                    margin="dense"
-                    id="tanggal"
-                    label="Tanggal"
-                    fullWidth
-                    value={data_ujian.state.formulirDataUjian.tanngal}
-                    onChange={event =>
-                      data_ujian.perbaruiTanggalUjian(event.currentTarget.value)
-                    }
-                  />
+                  <div className={classes.tanggal}>
+                    <TextField
+                      margin="dense"
+                      id="tanggal"
+                      label="Tanggal"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      value={moment(
+                        data_ujian.state.formulirDataUjian.tanggal,
+                        "iM/iD/iYYYY"
+                      ).format("YYYY-MM-DD")}
+                      onChange={event =>
+                        data_ujian.perbaruiTanggalUjian(
+                          event.currentTarget.value
+                        )
+                      }
+                    />
+                    <TextField
+                      margin="dense"
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      label="Tanggal Hijryah"
+                      value={data_ujian.state.formulirDataUjian.tanggal}
+                      fullWidth
+                      disabled
+                    />
+                  </div>
                   <TextField
                     margin="dense"
                     id="waktu"

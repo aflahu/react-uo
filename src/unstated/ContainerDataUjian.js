@@ -2,6 +2,7 @@ import { Container } from "unstated";
 import Data from "./data";
 import Axios from "axios";
 import swal from "sweetalert";
+import moment from "moment-hijri";
 
 class ContainerDataUjian extends Container {
   state = {
@@ -93,10 +94,16 @@ class ContainerDataUjian extends Container {
       formulirDataUjian: { ...sebelumnya.formulirDataUjian, nama_mapel }
     }));
   }
-  perbaruiTanggalUjian(tanggal) {
-    this.setState(sebelumnya => ({
-      formulirDataUjian: { ...sebelumnya.formulirDataUjian, tanggal }
-    }));
+  async perbaruiTanggalUjian(tanggal) {
+    if (tanggal) {
+      console.log(tanggal);
+      await this.setState(sebelumnya => ({
+        formulirDataUjian: {
+          ...sebelumnya.formulirDataUjian,
+          tanggal: moment(tanggal, "YYYY-MM-DD").format("iM/iD/iYYYY")
+        }
+      }));
+    }
   }
   perbaruiWaktuUjian(waktu) {
     this.setState(sebelumnya => ({

@@ -139,7 +139,9 @@ class DataUtama extends Component {
               <Keluar />
             </IconButton>
             <Typography variant="h6" color="inherit">
-              Assalamu'alaikum warahmatullahi wabarakatuh
+              {window.localStorage.getItem("nama") +
+                " | " +
+                window.localStorage.getItem("tipe")}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -413,7 +415,10 @@ class DataUtama extends Component {
                       InputLabelProps={{
                         shrink: true
                       }}
-                      value={data_kelas.state.formulirDataKelas.tanggal}
+                      value={moment(
+                        data_kelas.state.formulirDataKelas.tanggal,
+                        "iM/iD/iYYYY"
+                      ).format("YYYY-MM-DD")}
                       onChange={event =>
                         data_kelas.perbaruiTanggalKelas(
                           event.currentTarget.value
@@ -426,9 +431,7 @@ class DataUtama extends Component {
                         shrink: true
                       }}
                       label="Tanggal Hijryah"
-                      value={moment(
-                        data_kelas.state.formulirDataKelas.tanggal
-                      ).format("iYYYY/iM/iD")}
+                      value={data_kelas.state.formulirDataKelas.tanggal}
                       fullWidth
                       disabled
                     />

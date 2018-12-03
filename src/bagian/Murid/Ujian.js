@@ -53,8 +53,8 @@ const hiasan = theme => ({
 
 class Ujian extends Component {
   async componentDidMount() {
-    const ujian = window.localStorage.getItem("ujian");
-    if (ujian) return history.replace("/soal");
+    const no_ujian = window.localStorage.getItem("no_ujian");
+    if (no_ujian) return history.replace("/soal");
     const [data, data_ujian] = this.props.containers;
     await data_ujian.ambilUjianMurid(window.localStorage.getItem("no"));
   }
@@ -77,7 +77,7 @@ class Ujian extends Component {
               </IconButton>
             </Tooltip>
             <Typography variant="h6" color="inherit">
-              Ujian untuk nama anta
+              Ujian untuk {window.localStorage.getItem("nama")}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -107,7 +107,12 @@ class Ujian extends Component {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  window.localStorage.setItem("ujian", d.no);
+                  window.localStorage.setItem("no_ujian", d.no);
+                  window.localStorage.setItem("judul_ujian", d.judul);
+                  window.localStorage.setItem("nama_mapel", d.nama_mapel);
+                  window.localStorage.setItem("soal_ujian", d.soal_ujian);
+                  window.localStorage.setItem("waktu_ujian", d.waktu);
+                  console.log(d);
                   window.localStorage.setItem("mulai", new Date().getTime());
                   history.replace("/soal");
                 }}

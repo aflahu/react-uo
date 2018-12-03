@@ -10,6 +10,7 @@ import {
   Radio,
   withStyles
 } from "@material-ui/core";
+import { history } from "../../material/BrowserRouter";
 
 const hiasan = theme => ({
   utama: {
@@ -40,23 +41,70 @@ const hiasan = theme => ({
 class Soal extends Component {
   state = {
     value: "female",
-    no_soal: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    no_soal: [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    ujian: null
   };
   componentDidMount() {
-    const ujian = window.localStorage.getItem("ujian");
-    if (ujian) alert("selanjutnya");
+    const no_ujian = window.localStorage.getItem("no_ujian");
+    if (!no_ujian) history.replace("/ujian");
+    const mulai = window.localStorage.getItem("mulai");
+    const waktu = window.localStorage.getItem("waktu");
+    const soal = window.localStorage.getItem("soal_ujian");
+    console.log(soal);
+    // if() {
+    //   this.kumpulkan()
+    // }
+    // this.setState({ ujian });
   }
 
   handleChange = event => {
     this.setState({ value: event.target.value });
   };
+
+  kumpulkan = () => {
+    window.localStorage.removeItem("no_ujian");
+    window.localStorage.removeItem("judul_ujian");
+    window.localStorage.removeItem("nama_mapel");
+    window.localStorage.removeItem("soal_ujian");
+    window.localStorage.removeItem("waktu_ujian");
+    window.localStorage.removeItem("mulai");
+    history.replace("/ujian");
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.utama}>
         <Paper className={classes.media}>
-          <Typography variant="headline">nama</Typography>
-          <Typography variant="headline">Anda sedang ujian: mapel</Typography>
+          <Typography variant="headline">
+            {window.localStorage.getItem("nama")}
+          </Typography>
+          <Typography variant="headline">
+            Anda sedang ujian: {window.localStorage.getItem("judul_ujian")}
+          </Typography>
+          <Typography variant="headline">
+            Mata pelajaran: {window.localStorage.getItem("nama_mapel")}
+          </Typography>
         </Paper>
         <Paper className={classes.media}>
           <div>
@@ -113,7 +161,9 @@ class Soal extends Component {
           <Button size="large" variant="contained" color="secondary">
             Kembali
           </Button>
-          <Button disabled>1/23</Button>
+          <Button disabled>
+            {"1" + "/" + (window.localStorage.getItem("soal_ujian").length + 1)}
+          </Button>
           <Button size="large" variant="contained" color="secondary">
             Selanjutnya
           </Button>
@@ -122,6 +172,7 @@ class Soal extends Component {
             size="large"
             variant="contained"
             color="primary"
+            onClick={this.kumpulkan}
           >
             Kumpulkan
           </Button>

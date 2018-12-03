@@ -2,6 +2,7 @@ import { Container } from "unstated";
 import Data from "./data";
 import Axios from "axios";
 import swal from "sweetalert";
+import moment from "moment-hijri";
 
 class ContainerDataKelas extends Container {
   state = {
@@ -47,9 +48,15 @@ class ContainerDataKelas extends Container {
     }));
   }
   async perbaruiTanggalKelas(tanggal) {
-    await this.setState(sebelumnya => ({
-      formulirDataKelas: { ...sebelumnya.formulirDataKelas, tanggal }
-    }));
+    if (tanggal) {
+      console.log(tanggal);
+      await this.setState(sebelumnya => ({
+        formulirDataKelas: {
+          ...sebelumnya.formulirDataKelas,
+          tanggal: moment(tanggal, "YYYY-MM-DD").format("iM/iD/iYYYY")
+        }
+      }));
+    }
   }
   async perbaruiMuridKelas(murid_di_kelas) {
     console.log(murid_di_kelas);
@@ -84,9 +91,11 @@ class ContainerDataKelas extends Container {
         i => i.value
       )
     };
+
     try {
       if (perbarui) {
         delete data.tableData;
+
         Axios.post(Data.url + "/kelas", data);
         await this.setState({
           formulirDataKelas: { nama: "", tanggal: "", murid_di_kelas: [] }
