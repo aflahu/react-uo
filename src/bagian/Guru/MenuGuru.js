@@ -29,6 +29,7 @@ import Keluar from "@material-ui/icons/ExitToApp";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { history } from "../../material/BrowserRouter";
 import moment from "moment-hijri";
+import ContainerDataNilai from "../../unstated/ContainerDataNilai";
 
 const hiasan = theme => ({
   utama: {
@@ -106,9 +107,19 @@ class MenuGuru extends Component {
   handleChange = (event, value) => {
     this.setState({ value });
   };
-  handleNilai = (formulir_nilai, data) => {
-    this.setState({ formulir_nilai });
-    console.log(data.nilai_terkumpul);
+  handleNilai = async (formulir_nilai, val) => {
+    const [
+      data,
+      data_soal,
+      data_kelas,
+      data_ujian,
+      data_nilai
+    ] = this.props.containers;
+    await this.setState({ formulir_nilai });
+    if (val) {
+      await data_nilai.ambilNilaiDariUjian(val.no);
+      console.log(data_nilai.state.nilai_dari_ujian);
+    }
   };
   handleEdit = (f, dataFormulir) => {
     this.setState({ formulir: f, perbarui: true });
@@ -135,7 +146,13 @@ class MenuGuru extends Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
+    const [
+      data,
+      data_soal,
+      data_kelas,
+      data_ujian,
+      data_nilai
+    ] = this.props.containers;
     return (
       <div className={classes.utama}>
         <AppBar position="static" className={classes.palang}>
@@ -439,18 +456,18 @@ class MenuGuru extends Component {
                 <DialogContent>
                   <MaterialTable
                     columns={[
-                      { title: "NIM", field: "no", type: "numeric" },
-                      { title: "Nama", field: "soal" },
-                      { title: "Siswa Waktu", field: "tanda" },
-                      { title: "Nila", field: "tanda" }
+                      { title: "NIM", field: "nim" },
+                      { title: "Nama", field: "string_nama" },
+                      { title: "Siswa Waktu", field: "sisa_waktu" },
+                      { title: "Nilai", field: "nilai" }
                     ]}
-                    data={data_soal.state.semua_soal}
+                    data={data_nilai.state.nilai_dari_ujian}
                     title="Nilai Murid"
                     actions={[
                       {
                         icon: "delete_outline",
                         tooltip: "hapus",
-                        onClick: (e, data) => this.handleDeleteData(2, data)
+                        onClick: (e, data) => data_nilai.hapusNiliaDiNo(data.no)
                       }
                     ]}
                   />
@@ -632,7 +649,8 @@ const gabungan = compose(
     ContainerDataPengguna,
     ContainerDataSoal,
     ContainerDataKelas,
-    ContainerDataUjian
+    ContainerDataUjian,
+    ContainerDataNilai
   ])
 );
 export default gabungan(MenuGuru);
