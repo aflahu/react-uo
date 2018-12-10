@@ -461,9 +461,9 @@ class MenuGuru extends Component {
                       { title: "Siswa Waktu", field: "sisa_waktu" },
                       { title: "Nilai", field: "nilai" }
                     ]}
-                    options={{ exportButton: true }}
                     data={data_nilai.state.nilai_dari_ujian}
                     title="Nilai Murid"
+                    options={{ exportButton: true }}
                     actions={[
                       {
                         icon: "delete_outline",
@@ -475,7 +475,10 @@ class MenuGuru extends Component {
                 </DialogContent>
                 <DialogActions>
                   <Button
-                    onClick={() => this.handleNilai(false)}
+                    onClick={() => {
+                      window.location.reload();
+                      this.handleNilai(false);
+                    }}
                     color="primary"
                   >
                     Tutup

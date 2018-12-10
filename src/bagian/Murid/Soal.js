@@ -11,6 +11,7 @@ import {
   withStyles
 } from "@material-ui/core";
 import { history } from "../../material/BrowserRouter";
+import moment from "moment-hijri";
 
 const hiasan = theme => ({
   utama: {
@@ -41,44 +42,47 @@ const hiasan = theme => ({
 class Soal extends Component {
   state = {
     value: "female",
-    no_soal: [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19
-    ],
-    ujian: null
+    no_soal_sekarang: 0,
+    ujian: null,
+    jam: null,
+    menit: 0,
+    detik: 0,
+    soal: []
   };
   componentDidMount() {
     const no_ujian = window.localStorage.getItem("no_ujian");
     if (!no_ujian) history.replace("/ujian");
-    const mulai = window.localStorage.getItem("mulai");
-    const waktu = window.localStorage.getItem("waktu_ujian");
-    const soal = window.localStorage.getItem("soal_ujian");
-    const habisDi =
-      mulai + new Date(new Date(mulai).getMinutes() + waktu).getTime();
-    const tinggal = habisDi - waktu;
-    const sisa = new Date(tinggal).getMinutes();
-    console.log(new Date(mulai));
+    const mulai = parseInt(window.localStorage.getItem("mulai"));
+    const waktu = parseInt(window.localStorage.getItem("waktu_ujian"));
+    const habis = moment(new Date(mulai)).add(1, "m");
+    const soal = JSON.parse(window.localStorage.getItem("soal_ujian"));
+    this.setState({ soal });
+    // console.log(soal);
+    // console.log(this.state.soal);
+    // const sisa = moment.duration(habis.diff(new moment()));
+    // console.log(sisa._data.minutes + " " + sisa._data.seconds);
+    this.timer = setInterval(() => this.perbaruiWaktu(habis), 1000);
     // if() {
-    //   this.kumpulkan()
+    //   this.kumpulkan()))
     // }
     // this.setState({ ujian });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  perbaruiWaktu(habis) {
+    const jam = moment.duration(habis.diff(new moment()))._data.hours;
+    const menit = moment.duration(habis.diff(new moment()))._data.minutes;
+    const detik = moment.duration(habis.diff(new moment()))._data.seconds;
+    const milis = moment.duration(habis.diff(new moment()))._milliseconds;
+    this.setState({ jam, menit, detik });
+    if (milis < 0) this.kumpulkan();
+  }
+
+  perbaruiNoSoalSekarang(no_soal_sekarang) {
+    this.setState({ no_soal_sekarang });
   }
 
   handleChange = event => {
@@ -97,8 +101,10 @@ class Soal extends Component {
 
   render() {
     const { classes } = this.props;
+    const { soal, no_soal_sekarang } = this.state;
     return (
       <div className={classes.utama}>
+        <div style={{ gridColumn: 3 }} />
         <Paper className={classes.media}>
           <Typography variant="headline">
             {window.localStorage.getItem("nama")}
@@ -112,14 +118,15 @@ class Soal extends Component {
         </Paper>
         <Paper className={classes.media}>
           <div>
-            {this.state.no_soal.map((item, index) => (
+            {soal.map((item, index) => (
               <Button
                 color="secondary"
                 variant="outlined"
                 key={index}
                 className={classes.sudah}
+                onClick={() => this.perbaruiNoSoalSekarang(index)}
               >
-                {item}
+                {index + 1}
               </Button>
             ))}
           </div>
@@ -130,11 +137,9 @@ class Soal extends Component {
             color="textPrimary"
             className={classes.pertanyaan}
           >
-            pertanyaan asd as sdasd asdsadsa dsa dasdsad sadasdsadsadsadsa sad
-            sad sadas dsad sad sad sad sad sad sad sad sad sad{" "}
+            {soal[no_soal_sekarang] && soal[no_soal_sekarang].soal}
           </Typography>
           <FormControl component="fieldset" className={classes.formControl}>
-            {/* <FormLabel component="legend">Gender</FormLabel> */}
             <RadioGroup
               aria-label="Gender"
               name="gender1"
@@ -143,20 +148,32 @@ class Soal extends Component {
               onChange={this.handleChange}
             >
               <FormControlLabel
-                value="female"
+                value={"pilihan_1"}
                 control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
+                label={
+                  soal[no_soal_sekarang] && soal[no_soal_sekarang].pilihan_1
+                }
               />
               <FormControlLabel
-                value="disabled"
+                value={"pilihan_2"}
                 control={<Radio />}
-                label="(Disabled option)"
+                label={
+                  soal[no_soal_sekarang] && soal[no_soal_sekarang].pilihan_2
+                }
+              />
+              <FormControlLabel
+                value={"pilihan_3"}
+                control={<Radio />}
+                label={
+                  soal[no_soal_sekarang] && soal[no_soal_sekarang].pilihan_3
+                }
+              />
+              <FormControlLabel
+                value={"pilihan_4"}
+                control={<Radio />}
+                label={
+                  soal[no_soal_sekarang] && soal[no_soal_sekarang].pilihan_4
+                }
               />
             </RadioGroup>
           </FormControl>
@@ -165,9 +182,7 @@ class Soal extends Component {
           <Button size="large" variant="contained" color="secondary">
             Kembali
           </Button>
-          <Button disabled>
-            {"1" + "/" + (window.localStorage.getItem("soal_ujian").length + 1)}
-          </Button>
+          <Button disabled>{"1" + "/" + this.state.soal.length}</Button>
           <Button size="large" variant="contained" color="secondary">
             Selanjutnya
           </Button>
@@ -181,7 +196,8 @@ class Soal extends Component {
             Kumpulkan
           </Button>
           <Button style={{ float: "right" }} variant="text" disabled>
-            20 menit
+            {(this.state.jam && this.state.jam + "jam :") || ""}{" "}
+            {this.state.menit} menit : {this.state.detik} detik
           </Button>
         </Paper>
       </div>

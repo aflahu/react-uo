@@ -110,9 +110,11 @@ class Ujian extends Component {
                   window.localStorage.setItem("no_ujian", d.no);
                   window.localStorage.setItem("judul_ujian", d.judul);
                   window.localStorage.setItem("nama_mapel", d.nama_mapel);
-                  window.localStorage.setItem("soal_ujian", d.soal_ujian);
+                  window.localStorage.setItem(
+                    "soal_ujian",
+                    JSON.stringify(d.soal_ujian)
+                  );
                   window.localStorage.setItem("waktu_ujian", d.waktu);
-                  console.log(d);
                   window.localStorage.setItem("mulai", new Date().getTime());
                   history.replace("/soal");
                 }}
