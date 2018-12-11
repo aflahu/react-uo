@@ -88,7 +88,7 @@ class Ujian extends Component {
         </Paper>
         <div className={classes.pilihan}>
           {data_ujian.state.semua_ujian.map(d => (
-            <Paper key={d} className={classes.media}>
+            <Paper key={d.no} className={classes.media}>
               <Typography align="center" variant="title" gutterBottom>
                 {d.nama_mapel}
               </Typography>

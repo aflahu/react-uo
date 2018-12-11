@@ -2,6 +2,7 @@ import { Container } from "unstated";
 import Data from "./data";
 import Axios from "axios";
 import swal from "sweetalert";
+import { history } from "../material/BrowserRouter";
 
 class ContainerDataNilai extends Container {
   state = {
@@ -50,6 +51,41 @@ class ContainerDataNilai extends Container {
       });
     } catch (error) {
       return swal(
+        "Maaf ada kendala di pelayanan server",
+        "Silahkan hubungi admin, semoga Allah memudahkan",
+        "error"
+      );
+    }
+  }
+
+  async tambahNilai() {
+    try {
+      swal({
+        title: "Benar anda mau mengumpulkan?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async willDelete => {
+        if (willDelete) {
+          // await Axios.delete(Data.url + "/nilai/" + no_nilai);
+          // await this.ambilNilaiDariUjian(no_ujian);
+          swal("jawaban berhasil dikumpulkan", {
+            icon: "success"
+          });
+          window.localStorage.removeItem("no_ujian");
+          window.localStorage.removeItem("judul_ujian");
+          window.localStorage.removeItem("nama_mapel");
+          window.localStorage.removeItem("soal_ujian");
+          window.localStorage.removeItem("waktu_ujian");
+          window.localStorage.removeItem("mulai");
+          history.replace("/ujian");
+        } else {
+          swal("Pengumpulan jawaban dibatalkan");
+        }
+      });
+    } catch (error) {
+      swal(
         "Maaf ada kendala di pelayanan server",
         "Silahkan hubungi admin, semoga Allah memudahkan",
         "error"

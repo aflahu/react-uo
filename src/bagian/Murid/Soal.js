@@ -12,6 +12,9 @@ import {
 } from "@material-ui/core";
 import { history } from "../../material/BrowserRouter";
 import moment from "moment-hijri";
+import Containers from "unstated-connect";
+import { compose } from "recompose";
+import ContainerDataNilai from "../../unstated/ContainerDataNilai";
 
 const hiasan = theme => ({
   utama: {
@@ -47,14 +50,15 @@ class Soal extends Component {
     jam: null,
     menit: 0,
     detik: 0,
-    soal: []
+    soal: [],
+    jawaban: []
   };
   componentDidMount() {
     const no_ujian = window.localStorage.getItem("no_ujian");
     if (!no_ujian) history.replace("/ujian");
     const mulai = parseInt(window.localStorage.getItem("mulai"));
     const waktu = parseInt(window.localStorage.getItem("waktu_ujian"));
-    const habis = moment(new Date(mulai)).add(1, "m");
+    const habis = moment(new Date(mulai)).add(waktu, "m");
     const soal = JSON.parse(window.localStorage.getItem("soal_ujian"));
     this.setState({ soal });
     // console.log(soal);
@@ -85,23 +89,58 @@ class Soal extends Component {
     this.setState({ no_soal_sekarang });
   }
 
-  handleChange = event => {
-    this.setState({ value: event.target.value });
+  handleChange = (event, index) => {
+    const jawaban = this.state.jawaban;
+    jawaban[index] = event.target.value;
+    this.setState({ jawaban });
   };
 
-  kumpulkan = () => {
-    window.localStorage.removeItem("no_ujian");
-    window.localStorage.removeItem("judul_ujian");
-    window.localStorage.removeItem("nama_mapel");
-    window.localStorage.removeItem("soal_ujian");
-    window.localStorage.removeItem("waktu_ujian");
-    window.localStorage.removeItem("mulai");
-    history.replace("/ujian");
+  kumpulkan = async () => {
+    const [data_nilai] = this.props.containers;
+    data_nilai.tambahNilai();
   };
 
   render() {
     const { classes } = this.props;
-    const { soal, no_soal_sekarang } = this.state;
+    const { soal, no_soal_sekarang, jawaban } = this.state;
+    const TombolNoSoal = ({ index }) => {
+      if (index !== no_soal_sekarang && jawaban[index])
+        return (
+          <Button
+            color="default"
+            variant="text"
+            key={index}
+            className={classes.sudah}
+            onClick={() => this.perbaruiNoSoalSekarang(index)}
+          >
+            {index + 1}
+          </Button>
+        );
+      if (index !== no_soal_sekarang)
+        return (
+          <Button
+            color="secondary"
+            variant="outlined"
+            key={index}
+            className={classes.sudah}
+            onClick={() => this.perbaruiNoSoalSekarang(index)}
+          >
+            {index + 1}
+          </Button>
+        );
+      if (index === no_soal_sekarang)
+        return (
+          <Button
+            color="secondary"
+            variant="contained"
+            key={index}
+            className={classes.sudah}
+            onClick={() => this.perbaruiNoSoalSekarang(index)}
+          >
+            {index + 1}
+          </Button>
+        );
+    };
     return (
       <div className={classes.utama}>
         <div style={{ gridColumn: 3 }} />
@@ -119,15 +158,7 @@ class Soal extends Component {
         <Paper className={classes.media}>
           <div>
             {soal.map((item, index) => (
-              <Button
-                color="secondary"
-                variant="outlined"
-                key={index}
-                className={classes.sudah}
-                onClick={() => this.perbaruiNoSoalSekarang(index)}
-              >
-                {index + 1}
-              </Button>
+              <TombolNoSoal key={index} index={index} />
             ))}
           </div>
         </Paper>
@@ -144,8 +175,8 @@ class Soal extends Component {
               aria-label="Gender"
               name="gender1"
               className={classes.group}
-              value={this.state.value}
-              onChange={this.handleChange}
+              value={jawaban[no_soal_sekarang]}
+              onChange={e => this.handleChange(e, no_soal_sekarang)}
             >
               <FormControlLabel
                 value={"pilihan_1"}
@@ -179,11 +210,35 @@ class Soal extends Component {
           </FormControl>
         </Paper>
         <Paper className={classes.media}>
-          <Button size="large" variant="contained" color="secondary">
+          <Button
+            size="large"
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              if (no_soal_sekarang > 0) {
+                this.setState({
+                  no_soal_sekarang: no_soal_sekarang - 1
+                });
+              }
+            }}
+          >
             Kembali
           </Button>
-          <Button disabled>{"1" + "/" + this.state.soal.length}</Button>
-          <Button size="large" variant="contained" color="secondary">
+          <Button disabled>
+            {this.state.no_soal_sekarang + 1 + "/" + this.state.soal.length}
+          </Button>
+          <Button
+            size="large"
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              if (no_soal_sekarang < this.state.soal.length - 1) {
+                this.setState({
+                  no_soal_sekarang: no_soal_sekarang + 1
+                });
+              }
+            }}
+          >
             Selanjutnya
           </Button>
           <Button
@@ -204,4 +259,8 @@ class Soal extends Component {
     );
   }
 }
-export default withStyles(hiasan)(Soal);
+const gabungan = compose(
+  withStyles(hiasan),
+  Containers([ContainerDataNilai])
+);
+export default gabungan(Soal);
