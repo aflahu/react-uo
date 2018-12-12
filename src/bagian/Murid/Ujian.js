@@ -8,8 +8,10 @@ import {
   Toolbar,
   IconButton,
   Tooltip,
-  Divider
+  Divider,
+  Switch
 } from "@material-ui/core";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 import Keluar from "@material-ui/icons/ExitToApp";
 import { compose } from "recompose";
 import Containers from "unstated-connect";
@@ -48,10 +50,16 @@ const hiasan = theme => ({
   },
   tombol: {
     marginTop: theme.spacing.unit * 3
+  },
+  grow: {
+    flexGrow: 1
   }
 });
 
 class Ujian extends Component {
+  state = {
+    lihat: false
+  };
   async componentDidMount() {
     const no_ujian = window.localStorage.getItem("no_ujian");
     if (no_ujian) return history.replace("/soal");
@@ -76,9 +84,14 @@ class Ujian extends Component {
                 <Keluar />
               </IconButton>
             </Tooltip>
-            <Typography variant="h6" color="inherit">
+            <Typography variant="h6" color="inherit" className={classes.grow}>
               Ujian untuk {window.localStorage.getItem("nama")}
             </Typography>
+            <Switch
+              onChange={() => this.setState({ lihat: !this.state.lihat })}
+              value={this.state.lihat}
+            />
+            <Typography color="inherit">Lihat Nilai</Typography>
           </Toolbar>
         </AppBar>
         <Paper className={classes.peringatan}>
@@ -102,25 +115,33 @@ class Ujian extends Component {
               <Typography variant="subheading">
                 jumlah soal : {d.soal_ujian.length}
               </Typography>
+              {d.nilai_terkumpul.filter(i => i.no === 5)[0] &&
+                (this.state.lihat && (
+                  <Typography variant="subheading" hidden={false}>
+                    nilai : {d.nilai_terkumpul.filter(i => i.no === 5)[0].nilai}
+                  </Typography>
+                ))}
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  window.localStorage.setItem("no_ujian", d.no);
-                  window.localStorage.setItem("judul_ujian", d.judul);
-                  window.localStorage.setItem("nama_mapel", d.nama_mapel);
-                  window.localStorage.setItem(
-                    "soal_ujian",
-                    JSON.stringify(d.soal_ujian)
-                  );
-                  window.localStorage.setItem("waktu_ujian", d.waktu);
-                  window.localStorage.setItem("mulai", new Date().getTime());
-                  history.replace("/soal");
-                }}
-              >
-                Mulai Ujian
-              </Button>
+              {!d.nilai_terkumpul.filter(i => i.no === 5)[0] && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    window.localStorage.setItem("no_ujian", d.no);
+                    window.localStorage.setItem("judul_ujian", d.judul);
+                    window.localStorage.setItem("nama_mapel", d.nama_mapel);
+                    window.localStorage.setItem(
+                      "soal_ujian",
+                      JSON.stringify(d.soal_ujian)
+                    );
+                    window.localStorage.setItem("waktu_ujian", d.waktu);
+                    window.localStorage.setItem("mulai", new Date().getTime());
+                    history.replace("/soal");
+                  }}
+                >
+                  Mulai Ujian
+                </Button>
+              )}
             </Paper>
           ))}
         </div>

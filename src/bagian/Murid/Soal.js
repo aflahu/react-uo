@@ -97,7 +97,7 @@ class Soal extends Component {
 
   kumpulkan = async () => {
     const [data_nilai] = this.props.containers;
-    data_nilai.tambahNilai();
+    data_nilai.tambahNilai(this.state.jawaban, this.state.menit);
   };
 
   render() {
