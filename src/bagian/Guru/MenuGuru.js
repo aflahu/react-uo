@@ -304,7 +304,7 @@ class MenuGuru extends Component {
                 scroll="body"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Kelas
+                  Formulir Data Kelas
                 </DialogTitle>
                 <DialogContent>
                   <TextField
@@ -430,7 +430,7 @@ class MenuGuru extends Component {
                 scroll="body"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Ujian
+                  Formulir Data Ujian
                 </DialogTitle>
                 <DialogContent>
                   <TextField
@@ -621,7 +621,7 @@ class MenuGuru extends Component {
                 scroll="body"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Soal
+                  Formulir Data Soal
                 </DialogTitle>
                 <DialogContent>
                   <TextField

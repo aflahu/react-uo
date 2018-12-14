@@ -319,7 +319,7 @@ class DataUtama extends Component {
                 aria-labelledby="form-dialog-title"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Guru
+                  Formulir Data Guru
                 </DialogTitle>
                 <DialogContent>
                   <TextField
@@ -435,7 +435,7 @@ class DataUtama extends Component {
                 aria-labelledby="form-dialog-title"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Murid
+                  Formulir Data Murid
                 </DialogTitle>
                 <DialogContent>
                   <TextField
@@ -537,7 +537,7 @@ class DataUtama extends Component {
                 scroll="body"
               >
                 <DialogTitle id="form-dialog-title">
-                  Tambah Data Kelas
+                  Formulir Data Kelas
                 </DialogTitle>
                 <DialogContent>
                   <TextField
