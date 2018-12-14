@@ -35,7 +35,6 @@ class ContainerDataSoal extends Container {
             .toString();
         }
       }
-      console.log(semua_soal);
       await this.setState({ semua_soal });
     } catch (error) {
       if (error.response === undefined) {
@@ -169,7 +168,6 @@ class ContainerDataSoal extends Container {
   }
   async menghapusDataSoal(formulirDataSoal) {
     const no = formulirDataSoal.no;
-    console.log(no);
     try {
       swal({
         title: "Benar anda mau menghapus data?",

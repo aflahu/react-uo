@@ -121,7 +121,6 @@ class MenuGuru extends Component {
     await this.setState({ formulir_nilai });
     if (val) {
       await data_nilai.ambilNilaiDariUjian(val.no);
-      console.log(data_nilai.state.nilai_dari_ujian);
     }
   };
   handleEdit = (f, dataFormulir) => {

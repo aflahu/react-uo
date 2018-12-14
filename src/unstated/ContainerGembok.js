@@ -38,13 +38,10 @@ class ContainerGembok extends Container {
       window.localStorage.setItem("no", this.state.no);
       window.localStorage.setItem("tipe", this.state.tipe);
       window.localStorage.setItem("nama", result.data.nama);
-      console.log(result.data);
       if (this.state.tipe === "admin") return history.replace("/data-utama");
       if (this.state.tipe === "guru") return history.replace("/menu-guru");
       if (this.state.tipe === "murid") return history.replace("/ujian");
     } catch (error) {
-      // console.log(error.response);
-      // console.log(result.status);
       if (error.response === undefined) {
         return swal(
           "Maaf ada kendala di pelayanan server",

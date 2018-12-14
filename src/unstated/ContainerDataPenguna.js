@@ -32,7 +32,6 @@ class ContainerDataPengguna extends Container {
         Data.url + "/pengguna/" + parseInt(window.localStorage.getItem("no"))
       );
       await this.setState({ formulir_pengguna: result.data });
-      console.log(this.state.formulir_pengguna);
     } catch (error) {
       if (error.response === undefined) {
         return swal(

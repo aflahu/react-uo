@@ -40,7 +40,6 @@ class ContainerDataUjian extends Container {
             .toString();
         }
       }
-      // // console.log(semua_ujian);
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
@@ -71,7 +70,6 @@ class ContainerDataUjian extends Container {
             .toString();
         }
       }
-      // // console.log(semua_ujian);
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
@@ -96,7 +94,6 @@ class ContainerDataUjian extends Container {
   }
   async perbaruiTanggalUjian(tanggal) {
     if (tanggal) {
-      console.log(tanggal);
       await this.setState(sebelumnya => ({
         formulirDataUjian: {
           ...sebelumnya.formulirDataUjian,
@@ -163,7 +160,6 @@ class ContainerDataUjian extends Container {
       }
       if (!perbarui) {
         Axios.post(Data.url + "/ujian", data);
-        console.log(data);
         await this.setState({
           formulirDataUjian: {
             judul: "",
@@ -189,7 +185,6 @@ class ContainerDataUjian extends Container {
     await this.setState({
       formulirDataUjian: { ...formulirDataUjian, kelas_kelas_ujian, soal_ujian }
     });
-    console.log(this.state.formulirDataUjian);
   }
 
   async menghapusDataUjian(formulirDataUjian) {

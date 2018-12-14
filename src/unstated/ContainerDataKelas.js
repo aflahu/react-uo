@@ -49,7 +49,6 @@ class ContainerDataKelas extends Container {
   }
   async perbaruiTanggalKelas(tanggal) {
     if (tanggal) {
-      console.log(tanggal);
       await this.setState(sebelumnya => ({
         formulirDataKelas: {
           ...sebelumnya.formulirDataKelas,
@@ -59,14 +58,12 @@ class ContainerDataKelas extends Container {
     }
   }
   async perbaruiMuridKelas(murid_di_kelas) {
-    console.log(murid_di_kelas);
     await this.setState(sebelumnya => ({
       formulirDataKelas: {
         ...sebelumnya.formulirDataKelas,
         murid_di_kelas
       }
     }));
-    console.log(this.state.formulirDataKelas);
   }
   async bersihkanFormulirKelas(e) {
     e.preventDefault();
@@ -125,7 +122,6 @@ class ContainerDataKelas extends Container {
   }
   async menghapusDataKelas(formulirDataKelas) {
     const no = formulirDataKelas.no;
-    console.log(no);
     try {
       swal({
         title: "Benar anda mau menghapus data?",
