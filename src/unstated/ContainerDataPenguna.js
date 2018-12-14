@@ -22,13 +22,17 @@ class ContainerDataPengguna extends Container {
       nama: "",
       kunci: "",
       tipe: "murid"
-    }
+    },
+    formulir_pengguna: { no: "", nama: "", kunci: "", tipe: "" }
   };
 
-  async ambilDataAdmin() {
+  async ambilDataPengguna() {
     try {
-      const result = await Axios.get(Data.url + "/pengguna/tipe/admin");
-      await this.setState({ admin: result.data });
+      const result = await Axios.get(
+        Data.url + "/pengguna/" + parseInt(window.localStorage.getItem("no"))
+      );
+      await this.setState({ formulir_pengguna: result.data });
+      console.log(this.state.formulir_pengguna);
     } catch (error) {
       if (error.response === undefined) {
         return swal(
@@ -38,6 +42,38 @@ class ContainerDataPengguna extends Container {
         );
       }
     }
+  }
+
+  perbaruiNoPengguna(no) {
+    this.setState(sebelumnya => ({
+      formulir_pengguna: { ...sebelumnya.formulir_pengguna, no }
+    }));
+  }
+  perbaruiNamaPengguna(nama) {
+    this.setState(sebelumnya => ({
+      formulir_pengguna: { ...sebelumnya.formulir_pengguna, nama }
+    }));
+  }
+  perbaruiKunciPengguna(kunci) {
+    this.setState(sebelumnya => ({
+      formulir_pengguna: { ...sebelumnya.formulir_pengguna, kunci }
+    }));
+  }
+
+  async perbaruiPengguna(e) {
+    e.preventDefault();
+    try {
+      await Axios.put(Data.url + "/pengguna", this.state.formulir_pengguna);
+    } catch (error) {
+      swal("Silahkan perbaiki data masukan", "", "error");
+    }
+  }
+
+  async bersihkanFormulirPengguna(e) {
+    e.preventDefault();
+    await this.setState({
+      fromulir_pengguna: { no: "", nama: "", kunci: "", tipe: "" }
+    });
   }
 
   // untuk data Guru

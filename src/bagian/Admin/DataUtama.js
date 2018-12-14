@@ -19,7 +19,8 @@ import {
   Input,
   MenuItem,
   Toolbar,
-  Typography
+  Typography,
+  Tooltip
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { Subscribe } from "unstated";
@@ -28,6 +29,7 @@ import ContainerDataKelas from "../../unstated/ContainerDataKelas";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import AddIcon from "@material-ui/icons/Add";
 import FileIcon from "@material-ui/icons/AttachFile";
+import EditIcon from "@material-ui/icons/Edit";
 // import csvToJson from "convert-csv-to-json";
 import pp from "papaparse";
 import MaterialSelect from "../../material/MaterialSelect";
@@ -91,7 +93,8 @@ class DataUtama extends Component {
   state = {
     value: 0,
     formulir: 0,
-    perbarui: false
+    perbarui: false,
+    akun: false
   };
 
   async componentDidMount() {
@@ -158,14 +161,101 @@ class DataUtama extends Component {
       <div className={classes.utama}>
         <AppBar position="static" className={classes.palang}>
           <Toolbar>
-            <IconButton color="inherit" onClick={this.keluarApp}>
-              <Keluar />
-            </IconButton>
-            <Typography variant="h6" color="inherit">
+            <Tooltip title="Keluar">
+              <IconButton color="inherit" onClick={this.keluarApp}>
+                <Keluar />
+              </IconButton>
+            </Tooltip>
+            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
               {window.localStorage.getItem("nama") +
                 " | " +
                 window.localStorage.getItem("tipe")}
             </Typography>
+            <Tooltip title="Perbarui akun">
+              <IconButton
+                color="inherit"
+                onClick={async () => {
+                  await data.ambilDataPengguna();
+                  this.setState({ akun: !this.state.akun });
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Dialog
+              open={this.state.akun}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Perbarui Akun</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="no"
+                  label="No."
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  fullWidth
+                  value={data.state.formulir_pengguna.no}
+                  onChange={event =>
+                    data.perbaruiNoPengguna(event.currentTarget.value)
+                  }
+                  disabled
+                />
+                <TextField
+                  margin="dense"
+                  id="nama"
+                  label="Nama"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  fullWidth
+                  value={data.state.formulir_pengguna.nama}
+                  onChange={event =>
+                    data.perbaruiNamaPengguna(event.currentTarget.value)
+                  }
+                />
+                <TextField
+                  margin="dense"
+                  id="kunci"
+                  label="Kunci"
+                  type="password"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  fullWidth
+                  value={data.state.formulir_pengguna.kunci}
+                  onChange={event =>
+                    data.perbaruiKunciPengguna(event.currentTarget.value)
+                  }
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={e => {
+                    this.handleClose();
+                    data.bersihkanFormulirPengguna(e);
+                    this.setState({ akun: false });
+                  }}
+                  color="primary"
+                >
+                  Batal
+                </Button>
+                <Button
+                  onClick={async e => {
+                    await data.perbaruiPengguna(e);
+                    this.setState({ akun: false });
+                    data.bersihkanFormulirPengguna(e);
+                  }}
+                  color="primary"
+                >
+                  Masukkan
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Toolbar>
         </AppBar>
         <div className={classes.tengah}>

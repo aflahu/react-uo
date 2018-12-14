@@ -13,7 +13,8 @@ import {
   DialogTitle,
   Dialog,
   Toolbar,
-  Typography
+  Typography,
+  Tooltip
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
@@ -26,7 +27,8 @@ import { compose } from "recompose";
 import Containers from "unstated-connect";
 import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 import Keluar from "@material-ui/icons/ExitToApp";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import EditIcon from "@material-ui/icons/Edit";
+
 import { history } from "../../material/BrowserRouter";
 import moment from "moment-hijri";
 import ContainerDataNilai from "../../unstated/ContainerDataNilai";
@@ -83,7 +85,8 @@ class MenuGuru extends Component {
     value: 0,
     formulir: 0,
     perbarui: false,
-    formulir_nilai: false
+    formulir_nilai: false,
+    akun: false
   };
   async componentDidMount() {
     const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
@@ -157,15 +160,101 @@ class MenuGuru extends Component {
       <div className={classes.utama}>
         <AppBar position="static" className={classes.palang}>
           <Toolbar>
-            <IconButton color="inherit" onClick={this.keluarApp}>
-              <Keluar />
-            </IconButton>
-            <Typography variant="h6" color="inherit">
+            <Tooltip title="Keluar">
+              <IconButton color="inherit" onClick={this.keluarApp}>
+                <Keluar />
+              </IconButton>
+            </Tooltip>
+            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
               {window.localStorage.getItem("nama") +
                 " | " +
                 window.localStorage.getItem("tipe")}
             </Typography>
+            <Tooltip title="Perbarui akun">
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  this.setState({ akun: !this.state.akun });
+                  data.ambilDataPengguna();
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
+          <Dialog
+            open={this.state.akun}
+            onClose={this.handleClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Perbarui Akun</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="no"
+                label="No."
+                type="number"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                fullWidth
+                value={data.state.formulir_pengguna.no}
+                onChange={event =>
+                  data.perbaruiNoPengguna(event.currentTarget.value)
+                }
+                disabled
+              />
+              <TextField
+                margin="dense"
+                id="nama"
+                label="Nama"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                fullWidth
+                value={data.state.formulir_pengguna.nama}
+                onChange={event =>
+                  data.perbaruiNamaPengguna(event.currentTarget.value)
+                }
+              />
+              <TextField
+                margin="dense"
+                id="kunci"
+                label="Kunci"
+                type="password"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                fullWidth
+                value={data.state.formulir_pengguna.kunci}
+                onChange={event =>
+                  data.perbaruiKunciPengguna(event.currentTarget.value)
+                }
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={e => {
+                  data.bersihkanFormulirPengguna(e);
+                  this.setState({ akun: false });
+                }}
+                color="primary"
+              >
+                Batal
+              </Button>
+              <Button
+                onClick={async e => {
+                  await data.perbaruiPengguna(e);
+                  this.setState({ akun: false });
+                  data.bersihkanFormulirPengguna(e);
+                }}
+                color="primary"
+              >
+                Masukkan
+              </Button>
+            </DialogActions>
+          </Dialog>
         </AppBar>
         <div className={classes.tengah}>
           <AppBar position="static" elevation={7}>
