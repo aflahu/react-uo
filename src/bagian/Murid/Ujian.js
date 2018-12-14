@@ -11,7 +11,6 @@ import {
   Divider,
   Switch
 } from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
 import Keluar from "@material-ui/icons/ExitToApp";
 import { compose } from "recompose";
 import Containers from "unstated-connect";

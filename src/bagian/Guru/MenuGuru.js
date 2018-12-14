@@ -184,6 +184,7 @@ class MenuGuru extends Component {
               >
                 <AddIcon />
               </IconButton>
+
               <MaterialTable
                 columns={[
                   { title: "No. Kelas", field: "no", type: "numeric" },

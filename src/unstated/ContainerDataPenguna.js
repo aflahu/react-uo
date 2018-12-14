@@ -114,6 +114,18 @@ class ContainerDataPengguna extends Container {
       swal("Silahkan perbaiki data masukan", "", "error");
     }
   }
+  async tambahBanyakDataPengguna(data, tipe) {
+    try {
+      Axios.post(Data.url + "/pengguna/banyak", { data, tipe });
+      await new Promise(res => setTimeout(res, 3000));
+      await this.ambilDataGuru();
+      await this.pilihanGuru();
+      await this.ambilDataMurid();
+      await this.pilihanMurid();
+    } catch (error) {
+      swal("Silahkan perbaiki data masukan", "", "error");
+    }
+  }
   async mengisiFromulirGuru(formulirDataGuru) {
     this.setState({ formulirDataGuru });
   }

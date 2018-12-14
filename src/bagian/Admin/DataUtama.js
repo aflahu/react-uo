@@ -27,6 +27,9 @@ import ContainerDataPengguna from "../../unstated/ContainerDataPenguna";
 import ContainerDataKelas from "../../unstated/ContainerDataKelas";
 import ContainerDataUjian from "../../unstated/ContainerDataUjian";
 import AddIcon from "@material-ui/icons/Add";
+import FileIcon from "@material-ui/icons/AttachFile";
+// import csvToJson from "convert-csv-to-json";
+import pp from "papaparse";
 import MaterialSelect from "../../material/MaterialSelect";
 import { compose } from "recompose";
 import Containers from "unstated-connect";
@@ -78,6 +81,9 @@ const hiasan = theme => ({
   tanggal: {
     display: "flex",
     flex: "1 1"
+  },
+  input: {
+    display: "none"
   }
 });
 
@@ -127,6 +133,23 @@ class DataUtama extends Component {
     return history.replace("/");
   };
 
+  csvparse = function(file) {
+    return new Promise(function(complete, error) {
+      pp.parse(file, { header: true, complete, error });
+    });
+  };
+
+  onChange = async (e, tipe) => {
+    const [data_pengguna] = this.props.containers;
+    const file = e.target.files[0];
+    const { data } = await this.csvparse(file);
+    if (data[data.length - 1].nama === undefined) {
+      data.pop();
+    }
+    await data_pengguna.tambahBanyakDataPengguna(data, tipe);
+    // window.location.reload();
+  };
+
   render() {
     const { classes } = this.props;
     const { value, perbarui } = this.state;
@@ -163,6 +186,22 @@ class DataUtama extends Component {
               >
                 <AddIcon />
               </IconButton>
+              <input
+                accept=".csv"
+                className={classes.input}
+                id="file_guru"
+                type="file"
+                onChange={e => this.onChange(e, "guru")}
+              />
+              <label htmlFor="file_guru">
+                <IconButton
+                  component="span"
+                  size="small"
+                  className={classes.tambah}
+                >
+                  <FileIcon />
+                </IconButton>
+              </label>
               <MaterialTable
                 columns={[
                   { title: "NIP", field: "no", type: "numeric" },
@@ -263,6 +302,22 @@ class DataUtama extends Component {
               >
                 <AddIcon />
               </IconButton>
+              <input
+                accept=".csv"
+                className={classes.input}
+                id="file_murid"
+                type="file"
+                onChange={e => this.onChange(e, "murid")}
+              />
+              <label htmlFor="file_murid">
+                <IconButton
+                  component="span"
+                  size="small"
+                  className={classes.tambah}
+                >
+                  <FileIcon />
+                </IconButton>
+              </label>
               <MaterialTable
                 columns={[
                   { title: "NIS", field: "no", type: "numeric" },
