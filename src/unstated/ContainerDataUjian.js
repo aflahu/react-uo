@@ -40,9 +40,18 @@ class ContainerDataUjian extends Container {
             .toString();
         }
       }
+      // let total_nilai = 0;
+      for (const i in semua_ujian) {
+        semua_ujian[i].total_nilai = semua_ujian[i].soal_ujian.reduce(
+          (a, b) => a + b.nilai_soal,
+          0
+        );
+      }
+      console.log(semua_ujian);
       await this.setState({ semua_ujian });
     } catch (error) {
       if (error.response === undefined) {
+        console.log(error);
         return swal(
           "Maaf ada kendala di pelayanan server",
           "Silahkan hubungi admin, insyaAllah akan ditangani",

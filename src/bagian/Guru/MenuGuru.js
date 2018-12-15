@@ -402,7 +402,8 @@ class MenuGuru extends Component {
                   {
                     title: "Kelas kelas ujian",
                     field: "string_kelas_kelas_ujian"
-                  }
+                  },
+                  { title: "Total Nilai", field: "total_nilai" }
                 ]}
                 data={data_ujian.state.semua_ujian}
                 title="Data Ujian"
