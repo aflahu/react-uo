@@ -23,7 +23,7 @@ class ContainerDataUjian extends Container {
     try {
       // berdasarkan no guru
       const result = await Axios.get(
-        Data.url + "/ujian/" + (no_pengguna || "")
+        Data.url + "/ujian" + ("/guru/" + no_pengguna || "")
       );
       let semua_ujian = result.data;
       if (semua_ujian.length > 0 && semua_ujian[0].guru) {

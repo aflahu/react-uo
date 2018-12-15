@@ -92,7 +92,9 @@ class MenuGuru extends Component {
     const [data, data_soal, data_kelas, data_ujian] = this.props.containers;
     await data_soal.ambilDataSemuaSoal();
     await data_kelas.ambilDataSemuaKelas();
-    await data_ujian.ambilDataSemuaUjian();
+    await data_ujian.ambilDataSemuaUjian(
+      parseInt(window.localStorage.getItem("no"))
+    );
   }
   handleClickOpen = async f => {
     this.setState({ formulir: f });
