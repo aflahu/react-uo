@@ -5,6 +5,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import BrowserRouter from "./material/BrowserRouter";
 import { Provider } from "unstated";
+import materialIcons from "material-design-icons/iconfont/material-icons.css";
 
 ReactDOM.render(
   <BrowserRouter>

@@ -187,8 +187,13 @@ class Ujian extends Component {
           </Toolbar>
         </AppBar>
         <Paper className={classes.peringatan}>
+          <Typography variant="inherit">Perhatian:</Typography>
           <Typography variant="inherit">
-            Peringatan: sekali mulai harus
+            - Sakali mulai ujian tidak bisa kembali
+          </Typography>
+          <Typography variant="inherit">
+            - Data bisa jadi digunakan oleh pihak sekolah, dan pihak developer
+            (untuk perbaikan)
           </Typography>
         </Paper>
         <div className={classes.pilihan}>
